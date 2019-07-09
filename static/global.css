@@ -1,36 +1,72 @@
-body {
-	margin: 0;
-	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	font-size: 14px;
-	line-height: 1.5;
-	color: #333;
+/* Modular Scale
+	0.236
+	0.382
+	0.618
+* 1rem
+	1.618
+	2.618
+	4.236
+	6.854
+*/
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:500,600,700&display=swap');
+
+html {
+	font-family: 'Comfortaa', cursive;
+	font-size: 18px;
+	line-height: 1.618;
+	text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, h6 {
-	margin: 0 0 0.5em 0;
-	font-weight: 400;
-	line-height: 1.2;
+body {
+	margin: 0;
+}
+
+main {
+	margin: 1rem;
+	max-width: 1000px;
 }
 
 h1 {
-	font-size: 2em;
+	font-size: 4.236rem;
+	letter-spacing: 0.04em;
+	margin: 0.382rem 0 1rem;
 }
 
-a {
-	color: inherit;
+h2 {
+	font-size: 2.618rem;
+	letter-spacing: 0.03em;
+	margin: 0.618rem 0 1rem;
 }
 
-code {
-	font-family: menlo, inconsolata, monospace;
-	font-size: calc(1em - 2px);
-	color: #555;
-	background-color: #f0f0f0;
-	padding: 0.2em 0.4em;
-	border-radius: 2px;
+h3 {
+	font-size: 1.618rem;
+	letter-spacing: 0.02m;
 }
 
-@media (min-width: 400px) {
-	body {
-		font-size: 16px;
+h4,
+h5,
+h6 {
+	font-size: 1rem;
+}
+
+/* Screens larger than 500px */
+@media screen and (min-width: 500px) {
+	html {
+		font-size: calc(18px + 7 * ((100vw - 500px) / 500));
+	}
+
+	main {
+		margin: 1.618rem;
+	}
+}
+
+/* Screens larger than 1000px */
+@media screen and (min-width: 1000px) {
+	html {
+		font-size: 25px;
+	}
+
+	main {
+		margin: 0 auto;
 	}
 }
