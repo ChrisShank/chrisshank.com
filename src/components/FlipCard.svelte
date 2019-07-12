@@ -1,7 +1,8 @@
 <script>
-  export let height = 200;
-  export let width = 300;
-  export let dimensionUnit = "px";
+  export let height = 10
+  export let width = 20
+	export let flipBack = false
+	export let flipClockwise = false
 </script>
 
 <style>
@@ -17,10 +18,6 @@
     transform-style: preserve-3d;
     width: 100%;
     will-change: transform;
-  }
-
-  .flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
   }
 
   .flip-card-front,
@@ -39,10 +36,10 @@
   }
 </style>
 
-<div
-  class="flip-card"
-  style="height: {height + dimensionUnit}; width: {width + dimensionUnit};">
-  <div class="flip-card-inner">
+<div class="flip-card" style="height: {height}rem; width: {width}rem;">
+  <div 
+		class="flip-card-inner" 
+		style={flipBack ? `transform: rotateY(${flipClockwise ? '-' : ''}180deg)` : ''}>
     <div class="flip-card-front">
       <slot name="front" />
     </div>
