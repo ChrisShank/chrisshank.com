@@ -22,6 +22,9 @@
 
   .flip-card-front,
   .flip-card-back {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
     backface-visibility: hidden;
     background-color: rgb(245, 239, 239);
     border-radius: 7px;
