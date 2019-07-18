@@ -9,8 +9,6 @@
 	6.854
 */
 
-@import url('https://fonts.googleapis.com/css?family=Comfortaa:500,600,700&display=swap');
-
 html {
 	font-family: 'Comfortaa', cursive;
 	font-size: 18px;
@@ -19,7 +17,7 @@ html {
 }
 
 body {
-	background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+	background-image: linear-gradient(120deg, #8fd3f4 0%, #84fab0 100%);
 	margin: 0;
 }
 
@@ -59,6 +57,14 @@ h6,
 p {
 	font-size: 1rem;
 	margin: 0.382rem 0 0.618rem;
+}
+
+footer {
+	bottom: 0;
+	font-size: 0.618rem;
+	position: absolute;
+	text-align: center;
+	width: 100%;
 }
 
 /* Screens larger than 500px */

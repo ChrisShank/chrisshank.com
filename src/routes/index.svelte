@@ -3,27 +3,21 @@
 	import FlipCard from '../components/FlipCard.svelte'
 	import tabs from '../tabs'
 	
-	let activeTab = { name: '', component: null }
+	let frontTab = tabs.find(tab => tab.name === 'Home')
+	let backTab = { name: '', component: null }
+	$: activeTab = cardIsFlippedBack ? backTab : frontTab
 	let cardIsFlippedBack = false
-	let cardFlippedClockwise = true
+	// TODO: let cardFlippedClockwise = true
 	const card = { height: 11.089, width: 17.942 }
 
-	function changeTab(nextTab) {
-		activeTab = nextTab
-		cardIsFlippedBack = true
-	}
-
 	function onTabChange(event) {
+		const nextTab = event.detail
 		if (cardIsFlippedBack) {
-			cardIsFlippedBack = false
-			setTimeout(() => {
-				activeTab = event.detail
-				cardIsFlippedBack = true
-			}, 1000)
+			frontTab = nextTab
 		} else {
-			activeTab = event.detail
-			cardIsFlippedBack = true
+			backTab = nextTab
 		}
+		cardIsFlippedBack = !cardIsFlippedBack
 	}
 </script>
 
@@ -35,11 +29,6 @@
     justify-content: center;
     height: 100%;
     min-width: 320px;
-	}
-	
-	.logo {
-		margin: 1.618rem auto 0;
-		width: 80%;
 	}
 </style>
 
@@ -53,11 +42,10 @@
 
   <FlipCard flipBack={cardIsFlippedBack} {...card}>
 		<div slot="front">
-			<img class="logo" src="cs-logo.png" alt="logo" />
-    	<h3>Chris Shank</h3>
+			<svelte:component this={frontTab.component}/>
 		</div>
 		<div slot="back">
-    	<svelte:component this={activeTab.component}/>
+    	<svelte:component this={backTab.component}/>
 		</div>
   </FlipCard>
 </div>
