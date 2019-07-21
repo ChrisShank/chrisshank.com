@@ -1,8 +1,7 @@
 <script>
   export let height = 10
   export let width = 20
-	export let flipBack = false
-	export let flipClockwise = false
+	export let rotateDegrees = 180
 </script>
 
 <style>
@@ -42,7 +41,7 @@
 <div class="flip-card" style="height: {height}rem; width: {width}rem;">
   <div 
 		class="flip-card-inner" 
-		style={flipBack ? `transform: rotateY(${flipClockwise ? '-' : ''}180deg)` : ''}>
+		style={`transform: rotateY(${rotateDegrees}deg)`}>
     <div class="flip-card-front">
       <slot name="front" />
     </div>

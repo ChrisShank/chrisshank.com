@@ -9,7 +9,8 @@
 		"start": "node __sapper__/build",
 		"cy:run": "cypress run",
 		"cy:open": "cypress open",
-		"test": "run-p --race dev cy:run"
+		"test": "run-p --race dev cy:run",
+		"remove-sourcemaps": "find __sapper__/export/client/ -name *.map -type f -delete"
 	},
 	"dependencies": {
 		"compression": "1.7.4",
