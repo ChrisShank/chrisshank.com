@@ -26,7 +26,7 @@
     -ms-backface-visibility: hidden;
     backface-visibility: hidden;
     background-color: rgb(245, 239, 239);
-    border-radius: 7px;
+    border-radius: 6px;
     box-shadow: 0 6px 20px rgba(36, 37, 38, 0.75);
     position: absolute;
     height: 100%;

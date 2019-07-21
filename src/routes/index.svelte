@@ -67,7 +67,6 @@
 	/>
 
   <FlipCard 
-		flipBack={cardIsFlippedBack}
 		rotateDegrees={rotateDegrees} 
 		{...card}
 	>
