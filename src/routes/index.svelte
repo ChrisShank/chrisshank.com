@@ -31,9 +31,7 @@
 		throw Error('Neither tab is in tabs array')
 	}
 
-	function onTabChange(event) {
-		const nextTab = event.detail
-
+	function onTabChange({ detail: nextTab }) {
 		// Determine the degrees that the card should be rotated
 		if (compareTabs(activeTab, nextTab) > 0) rotateDegrees -= 180
 		else rotateDegrees += 180
@@ -56,6 +54,10 @@
     height: 100%;
     min-width: 320px;
 	}
+
+	.card-front, .card-back {
+		height: 100%;
+	}
 </style>
 
 <div class="container">
@@ -70,10 +72,10 @@
 		rotateDegrees={rotateDegrees} 
 		{...card}
 	>
-		<div slot="front">
+		<div class="card-front" slot="front">
 			<svelte:component this={frontTab.component}/>
 		</div>
-		<div slot="back">
+		<div class="card-back" slot="back">
     	<svelte:component this={backTab.component}/>
 		</div>
   </FlipCard>

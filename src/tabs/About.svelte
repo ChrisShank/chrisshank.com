@@ -1,13 +1,21 @@
 <style>
 	.bio {
-		font-size: 1rem;
-		margin: 0.618rem 1rem;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		justify-content: center;
+		margin: 0 0.618rem;
+	}
+
+	.bio > p {
+		font-size: 0.8rem;
+		margin-bottom: 0;
 	}
 </style>
 
-<p class="bio">
-	Trying to put the &#x1F9E9;'s together. 
-	Somthing about learning intrigues me. 
-	We have to start living in more sustainable ways &#x1F30D;.
-	I love to &#x1F9D7;, &#x1F4D6;, &#x1F4BB;, &#x1F4D3;, &#x1F57A;, &#x1F4AD;...
-</p>
+<div class="bio">
+	<p>Trying to put the 🧩's together.</p>
+	<p>Somthing about learning intrigues me.</p>
+	<p>We have to start living in more sustainable ways 🌍.</p>
+	<p>I love to 🧗, 📖, 💻, 📓, 🕺, 💭...</p>
+</div>
