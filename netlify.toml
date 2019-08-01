@@ -1,5 +1,3 @@
-[[redirects]]
-  from = "https://chrisshank.netlify.com/*"
-  to = "https://www.chrisshank.com/:splat"
-	status = 301
-	force = true
+[build]
+	publish = "www/"
+	command = "yarn build"
