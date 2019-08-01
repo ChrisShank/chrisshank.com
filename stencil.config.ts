@@ -4,7 +4,8 @@ export const config: Config = {
   globalStyle: 'src/global/app.css',
   outputTargets: [
     {
-      type: 'www'
+      type: 'www',
+      baseUrl: 'https://chrisshank.com'
     }
   ]
 }
