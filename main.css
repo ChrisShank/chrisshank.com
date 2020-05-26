@@ -1,7 +1,5 @@
 @tailwind base;
 
-@tailwind components;
-
 a {
 	position: relative;
 	line-height: 1;
@@ -22,5 +20,7 @@ a:after {
 a:hover:after {
 	top: 0%;
 }
+
+@tailwind components;
 
 @tailwind utilities;
