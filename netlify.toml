@@ -1,5 +1,4 @@
-[[redirects]]
-  from = "https://chrisshank.netlify.com/*"
-  to = "https://www.chrisshank.com/:splat"
-	status = 301
-	force = true
+  
+[build]
+	command = "yarn build"
+	publish = ".vitpress/dist/"
