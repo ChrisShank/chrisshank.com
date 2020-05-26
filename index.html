@@ -3,6 +3,7 @@
 
 <head>
 	<title>Chris Shank</title>
+	<link rel="stylesheet" href="main.css">
 	<style>
 		@font-face {
 			font-family: 'Crimson Pro';
@@ -22,34 +23,59 @@
 			font-family: 'Crimson Pro';
 		}
 	</style>
-	<link rel="stylesheet" href="main.css">
 </head>
 
-<body>
-	<h1>
-		<a href="/">
-			Chris Shank
-		</a>
+<body class="grid grid-cols-1 h-screen p-12 bg-gray-200" style="grid-template-rows: auto auto minmax(0, 1fr)">
+	<h1 class="text-center self-center text-xl md:text-4xl">
+		<a href="/">Chris Shank</a>
 	</h1>
-	<h2>Learner</h2>
-	<h2>Developer who can design</h2>
 
-	<nav>
-		<ul>
-			<li>
-				<a href="/essays">Essays</a>
-			</li>
-			<li>
-				<a href="https://learningtoolbox.io">The Learning Toolbox</a>
-			</li>
-			<li>
-				<a href="https://twitter.com/chrisshank23">Twitter</a>
-			</li>
-			<li>
-				<a href="https://github.com/ChrisShank">Github</a>
-			</li>
-		</ul>
+	<nav class="self-center flex flex-col items-center text-lg md:flex-row md:justify-center md:text-2xl">
+		<a class="p-1 md:p-4" href="/essays">Essays</a>
+		<a class="p-1 md:p-4" href="https://twitter.com/chrisshank23">Twitter</a>
+		<a class="p-1 md:p-4" href="https://github.com/ChrisShank">Github</a>
+		<a class="p-1 md:p-4" href="https://learningtoolbox.io">The Learning Toolbox</a>
 	</nav>
+
+	<main class="self-center flex flex-col items-center text-base md:text-xl">
+		<h2>Lifelong Learner.</h2>
+
+		<svg style="width: 20rem" viewBox="0 0 377 377" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<rect x="94.2786" y="156.946" width="44.4433" height="44.4433" transform="rotate(-45 94.2786 156.946)"
+				fill="#7F9CF5" />
+			<rect x="31.4262" y="156.946" width="44.4433" height="44.4433" transform="rotate(-45 31.4262 156.946)"
+				fill="#7F9CF5" />
+			<rect x="94.2786" y="219.799" width="44.4433" height="44.4433" transform="rotate(-45 94.2786 219.799)"
+				fill="#7F9CF5" />
+			<rect x="31.4262" y="219.799" width="44.4433" height="44.4433" transform="rotate(-45 31.4262 219.799)"
+				fill="#7F9CF5" />
+			<rect x="282.452" y="156.898" width="44.4433" height="44.4433" transform="rotate(-45 282.452 156.898)"
+				fill="#5A67D8" />
+			<rect x="219.6" y="156.898" width="44.4433" height="44.4433" transform="rotate(-45 219.6 156.898)"
+				fill="#5A67D8" />
+			<rect x="282.452" y="219.75" width="44.4433" height="44.4433" transform="rotate(-45 282.452 219.75)"
+				fill="#5A67D8" />
+			<rect x="219.6" y="219.75" width="44.4433" height="44.4433" transform="rotate(-45 219.6 219.75)" fill="#5A67D8" />
+			<rect x="188.407" y="62.8523" width="44.4433" height="44.4433" transform="rotate(-45 188.407 62.8523)"
+				fill="#667EEA" />
+			<rect x="125.554" y="62.8523" width="44.4433" height="44.4433" transform="rotate(-45 125.554 62.8523)"
+				fill="#667EEA" />
+			<rect x="188.407" y="125.705" width="44.4433" height="44.4433" transform="rotate(-45 188.407 125.705)"
+				fill="#667EEA" />
+			<rect x="125.554" y="125.705" width="44.4433" height="44.4433" transform="rotate(-45 125.554 125.705)"
+				fill="#667EEA" />
+			<rect x="188.407" y="250.943" width="44.4433" height="44.4433" transform="rotate(-45 188.407 250.943)"
+				fill="#4C51BF" />
+			<rect x="125.554" y="250.943" width="44.4433" height="44.4433" transform="rotate(-45 125.554 250.943)"
+				fill="#4C51BF" />
+			<rect x="188.407" y="313.795" width="44.4433" height="44.4433" transform="rotate(-45 188.407 313.795)"
+				fill="#4C51BF" />
+			<rect x="125.554" y="313.795" width="44.4433" height="44.4433" transform="rotate(-45 125.554 313.795)"
+				fill="#4C51BF" />
+		</svg>
+
+		<h2>Developer who can design.</h2>
+	</main>
 </body>
 
 </html>

@@ -10,6 +10,7 @@
 		"build": "vite build"
 	},
 	"devDependencies": {
+		"tailwindcss": "^1.4.6",
 		"vite": "^0.16.12"
 	}
 }
