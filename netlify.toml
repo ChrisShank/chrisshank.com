@@ -1,4 +1,4 @@
   
 [build]
 	command = "yarn build"
-	publish = ".vitpress/dist/"
+	publish = "dist/"
