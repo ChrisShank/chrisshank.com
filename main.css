@@ -21,6 +21,151 @@ a:hover:after {
 	top: 0%;
 }
 
+#square-one {
+	animation: 2s ease-out 3s square-one forwards;
+}
+
+@keyframes square-one {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(94.2786px, 156.946px) rotate(-45deg); }
+}
+
+#square-two {
+	animation: 2s ease-out 3s square-two forwards;
+}
+
+@keyframes square-two {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(31.4262px, 156.946px) rotate(-45deg); }
+}
+
+#square-three {
+	animation: 2s ease-out 3s square-three forwards;
+}
+
+@keyframes square-three {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(94.2786px, 219.799px) rotate(-45deg); }
+}
+
+#square-four {
+	animation: 2s ease-out 3s square-four forwards;
+}
+
+@keyframes square-four {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(31.4262px, 219.799px) rotate(-45deg); }
+}
+
+#square-five {
+	animation: 2s ease-out 3s square-five forwards;
+}
+
+@keyframes square-five {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(282.452px, 156.898px) rotate(-45deg); }
+}
+
+#square-six {
+	animation: 2s ease-out 3s square-six forwards;
+}
+
+@keyframes square-six {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(219.6px, 156.898px) rotate(-45deg); }
+}
+
+#square-seven {
+	animation: 2s ease-out 3s square-seven forwards;
+}
+
+@keyframes square-seven {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(282.452px, 219.75px) rotate(-45deg); }
+}
+
+#square-eight {
+	animation: 2s ease-out 3s square-eight forwards;
+}
+
+@keyframes square-eight {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(219.6px, 219.75px) rotate(-45deg); }
+}
+
+#square-nine {
+	animation: 2s ease-out 3s square-nine forwards;
+}
+
+@keyframes square-nine {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(188.407px, 62.8523px) rotate(-45deg); }
+}
+
+#square-ten {
+	animation: 2s ease-out 3s square-ten forwards;
+}
+
+@keyframes square-ten {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(125.554px, 62.8523px) rotate(-45deg); }
+}
+
+#square-eleven {
+	animation: 2s ease-out 3s square-eleven forwards;
+}
+
+@keyframes square-eleven {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(188.407px, 125.705px) rotate(-45deg); }
+}
+
+#square-twelve {
+	animation: 2s ease-out 3s square-twelve forwards;
+}
+
+@keyframes square-twelve {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(125.554px, 125.705px) rotate(-45deg); }
+}
+
+#square-thirteen {
+	animation: 2s ease-out 3s square-thirteen forwards;
+}
+
+@keyframes square-thirteen {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(188.407px, 250.943px) rotate(-45deg); }
+}
+
+#square-fourteen {
+	animation: 2s ease-out 3s square-fourteen forwards;
+}
+
+@keyframes square-fourteen {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(125.554px, 250.943px) rotate(-45deg); }
+}
+
+#square-fifteen {
+	animation: 2s ease-out 3s square-fifteen forwards;
+}
+
+@keyframes square-fifteen {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(188.407px, 313.795px) rotate(-45deg); }
+}
+
+#square-sixteen {
+	animation: 2s ease-out 3s square-sixteen forwards;
+}
+
+@keyframes square-sixteen {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(125.554px, 313.795px) rotate(-45deg); }
+}
+
+
 @tailwind components;
 
 @tailwind utilities;
