@@ -4,8 +4,8 @@ a {
 	position: relative;
 	line-height: 1;
 }
-
 a:after {
+
 	content: "";
 	position: absolute;
 	z-index: -1;
