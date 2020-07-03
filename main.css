@@ -1,5 +1,9 @@
 @tailwind base;
 
+html {
+	font-size: 20px;
+}
+
 a {
 	position: relative;
 	line-height: 1;
@@ -20,156 +24,6 @@ a:after {
 a:hover:after {
 	top: 0%;
 }
-
-#logo {
-	--duration: 2s;
-	--delay: 1.5s;
-}
-
-#logo rect:nth-child(1) {
-	animation: var(--duration) ease-out var(--delay) square-one forwards;
-}
-
-@keyframes square-one {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(94.2786px, 156.946px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(2) {
-	animation: var(--duration) ease-out var(--delay) square-two forwards;
-}
-
-@keyframes square-two {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(31.4262px, 156.946px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(3) {
-	animation: var(--duration) ease-out var(--delay) square-three forwards;
-}
-
-@keyframes square-three {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(94.2786px, 219.799px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(4) {
-	animation: var(--duration) ease-out var(--delay) square-four forwards;
-}
-
-@keyframes square-four {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(31.4262px, 219.799px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(5) {
-	animation: var(--duration) ease-out var(--delay) square-five forwards;
-}
-
-@keyframes square-five {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(282.452px, 156.898px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(6) {
-	animation: var(--duration) ease-out var(--delay) square-six forwards;
-}
-
-@keyframes square-six {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(219.6px, 156.898px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(7) {
-	animation: var(--duration) ease-out var(--delay) square-seven forwards;
-}
-
-@keyframes square-seven {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(282.452px, 219.75px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(8) {
-	animation: var(--duration) ease-out var(--delay) square-eight forwards;
-}
-
-@keyframes square-eight {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(219.6px, 219.75px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(9) {
-	animation: var(--duration) ease-out var(--delay) square-nine forwards;
-}
-
-@keyframes square-nine {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(188.407px, 62.8523px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(10) {
-	animation: var(--duration) ease-out var(--delay) square-ten forwards;
-}
-
-@keyframes square-ten {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(125.554px, 62.8523px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(11) {
-	animation: var(--duration) ease-out var(--delay) square-eleven forwards;
-}
-
-@keyframes square-eleven {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(188.407px, 125.705px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(12) {
-	animation: var(--duration) ease-out var(--delay) square-twelve forwards;
-}
-
-@keyframes square-twelve {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(125.554px, 125.705px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(13) {
-	animation: var(--duration) ease-out var(--delay) square-thirteen forwards;
-}
-
-@keyframes square-thirteen {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(188.407px, 250.943px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(14) {
-	animation: var(--duration) ease-out var(--delay) square-fourteen forwards;
-}
-
-@keyframes square-fourteen {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(125.554px, 250.943px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(15) {
-	animation: var(--duration) ease-out var(--delay) square-fifteen forwards;
-}
-
-@keyframes square-fifteen {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(188.407px, 313.795px) rotate(-45deg); }
-}
-
-#logo rect:nth-child(16) {
-	animation: var(--duration) ease-out var(--delay) square-sixteen forwards;
-}
-
-@keyframes square-sixteen {
-  from { transform: translate(0px, 0px); }
-  to   { transform: translate(125.554px, 313.795px) rotate(-45deg); }
-}
-
 
 @tailwind components;
 
