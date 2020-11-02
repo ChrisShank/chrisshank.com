@@ -1,0 +1,57 @@
+@tailwind base;
+
+@font-face {
+	font-family: 'Crimson Pro';
+	font-style: normal;
+	font-display: swap;
+	src: url('fonts/Crimson-Pro-vf.ttf');
+}
+
+@font-face {
+	font-family: 'Crimson Pro';
+	font-style: italic;
+	font-display: swap;
+	src: url('fonts/Crimson-Pro-italic-vf.ttf');
+}
+
+html {
+	font-family: 'Crimson Pro';
+	font-size: 22px;
+}
+
+a {
+	@apply relative;
+	@apply leading-none;
+	@apply outline-none;
+	@apply z-10;
+	padding: 0 2px;
+	text-decoration: none !important; /* Override for @tailwindcss/typography */
+}
+
+a::after {
+	@apply bg-indigo-300;
+	@apply rounded-sm;
+	@apply absolute;
+	@apply top-0;
+	@apply right-0;
+	@apply bottom-0;
+	@apply left-0;
+	content: '';
+	transition: transform 200ms cubic-bezier(0, 0.8, 0.13, 1);
+	transform: scaleY(0.1);
+	transform-origin: bottom center;
+	z-index: -1;
+}
+
+a:hover::after,
+a:focus::after {
+	transform: scaleY(1);
+}
+
+a.hide-underline::after {
+	transform: scaleY(0);
+}
+
+@tailwind components;
+
+@tailwind utilities;
