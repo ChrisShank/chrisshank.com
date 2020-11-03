@@ -6,12 +6,13 @@
 	"author": "chrisshank <chris.shank.23@gmail.com>",
 	"private": true,
 	"scripts": {
-		"dev": "vite",
-		"build": "vite build"
+		"dev": "vitepress",
+		"build": "vitepress build"
 	},
 	"devDependencies": {
+		"@tailwindcss/typography": "^0.2.0",
 		"autoprefixer": "^9.8.0",
-		"tailwindcss": "^1.4.6",
-		"vite": "^0.17.0"
+		"tailwindcss": "^1.8.0",
+		"vitepress": "^0.7.0"
 	}
 }
