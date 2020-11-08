@@ -4,5 +4,6 @@ module.exports = {
 	lang: 'en-US',
 	head: [
 		['meta', { name: 'author', content: 'Chris Shank' }],
+		['link', { rel: 'icon', href: 'favicon.png' }],
 	]
 }

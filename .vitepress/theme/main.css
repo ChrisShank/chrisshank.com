@@ -17,8 +17,11 @@
 html {
 	font-family: 'Crimson Pro';
 	font-size: 22px;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
 }
 
+/* Style anchors */
 a {
 	@apply relative;
 	@apply leading-none;
@@ -48,8 +51,15 @@ a:focus::after {
 	transform: scaleY(1);
 }
 
+/* Allow escape hatch for anchors that don't want these styles */
 a.hide-underline::after {
 	transform: scaleY(0);
+}
+
+#logo:hover .logo-box,
+#logo:focus-within .logo-box {
+	--transform-translate-x: 0 !important;
+	--transform-translate-y: 0 !important;
 }
 
 @tailwind components;
