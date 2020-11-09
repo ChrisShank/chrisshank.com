@@ -16,21 +16,23 @@
 			</h1>
 		</header>
 
-		<div class="prose flex-1 mx-auto flex flex-col">
+		<div class="prose-sm md:prose 2xl:prose-xl flex-1 mx-auto flex flex-col">
 			<main class="flex-1">
 				<h1 style="margin-bottom: 0">{{ page.title }}</h1>
-				<div v-if="page.stage" class="text-lg">
+				<div v-if="page.stage" class="md:text-lg xl:text-xl">
 					<span class="">{{ page.stage }}</span>
 					<span class="mx-2">|</span>
 					<span
 						>Last tended to on
-						<span style="color: rgb(26, 32, 44)">{{ page.lastUpdated }}</span></span
+						<span class="whitespace-no-wrap" style="color: rgb(26, 32, 44)">{{
+							page.lastUpdated
+						}}</span></span
 					>
 				</div>
 				<Content />
 			</main>
 
-			<footer class="pt-1 border-t-2 border-gray-400 text-right">
+			<footer class="mt-12 pt-1 border-t-2 border-gray-400 text-right">
 				©<span class="font-light">ChrisShank</span><span class="font-extrabold">2020</span>
 			</footer>
 		</div>

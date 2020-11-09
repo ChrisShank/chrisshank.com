@@ -5,7 +5,7 @@ stage: seedling
 
 Welcome to my little part of the internet! I'm Chris Shank and this website is a collection of ideas, notes, and writings that I have been thinking through. Think of it like walking through a small garden that I'm cultivating. Some of the thoughts might be incomplete (and possibly incoherent) while others may have blossomed 🌺.
 
-Currently I am exploring the intersection between learning an technology, trying to _push_ how far technology can augment the learning process. The goal is find ways for us to learn quicker, yet more effective, while more accessible to those with less privilege. 📚 This project is called the _Learning Toolbox_.
+Currently I am exploring the intersection between learning an technology, trying to _push_ how far technology can augment the learning process. The goal is find ways for us to learn quicker, yet more effective, while more accessible to those with less privilege. 📚 This project is called the [The Learning Toolbox](https://learningtoolbox.io).
 
 ## Here are some noteworthy places to dive in to!
 
@@ -13,8 +13,28 @@ Currently I am exploring the intersection between learning an technology, trying
 
 ## Looking to connect elsewhere?
 
-[Twitter](https://twitter.com/chrisshank23)
-<span class="mr-4"></span>
-[The Learning Toolbox](https://learningtoolbox.io)
-<span class="mr-4"></span>
-[Github](https://github.com/ChrisShank)
+<div class="flex items-center flex-no-wrap space-x-2">
+<a href="https://twitter.com/chrisshank23" class="hide-underline">
+	<svg 
+		viewBox="0 0 20 20"
+		fill="currentColor" 
+		class="w-8 h-8 text-indigo-300 opacity-75 hover:opacity-100 focus:opacity-100"
+	>
+		<path
+			d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
+		></path>
+	</svg>
+</a>
+
+<a href="https://github.com/ChrisShank" class="hide-underline">
+	<svg
+		viewBox="0 0 24 24"
+		fill="currentColor"
+		class="w-8 h-8 text-indigo-300 opacity-75 hover:opacity-100 focus:opacity-100"
+	>
+		<path
+			d="M12 2C6.477 2 2 6.463 2 11.97c0 4.404 2.865 8.14 6.839 9.458.5.092.682-.216.682-.48 0-.236-.008-.864-.013-1.695-2.782.602-3.369-1.337-3.369-1.337-.454-1.151-1.11-1.458-1.11-1.458-.908-.618.069-.606.069-.606 1.003.07 1.531 1.027 1.531 1.027.892 1.524 2.341 1.084 2.91.828.092-.643.35-1.083.636-1.332-2.22-.251-4.555-1.107-4.555-4.927 0-1.088.39-1.979 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.606 9.606 0 0112 6.82c.85.004 1.705.114 2.504.336 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.386.1 2.638.64.696 1.028 1.587 1.028 2.675 0 3.83-2.339 4.673-4.566 4.92.359.307.678.915.678 1.846 0 1.332-.012 2.407-.012 2.734 0 .267.18.577.688.48C19.137 20.107 22 16.373 22 11.969 22 6.463 17.522 2 12 2z"
+		></path>
+	</svg>
+</a>
+</div>
