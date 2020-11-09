@@ -18,6 +18,15 @@
 
 		<div class="prose flex-1 mx-auto flex flex-col">
 			<main class="flex-1">
+				<h1 style="margin-bottom: 0">{{ page.title }}</h1>
+				<div v-if="page.stage" class="text-lg">
+					<span class="">{{ page.stage }}</span>
+					<span class="mx-2">|</span>
+					<span
+						>Last tended to on
+						<span style="color: rgb(26, 32, 44)">{{ page.lastUpdated }}</span></span
+					>
+				</div>
 				<Content />
 			</main>
 
@@ -27,3 +36,44 @@
 		</div>
 	</div>
 </template>
+
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
+import { usePageData, useRoute } from 'vitepress'
+
+function getStageEmoji(stage: string = ''): string {
+	switch (stage) {
+		case 'seedling':
+			return '🌱 Seedling'
+		case 'budding':
+			return '🌿 Budding'
+		case 'evergreen':
+			return '🌳 Evergreen'
+		default:
+			return ''
+	}
+}
+
+function formatDate(date: number) {
+	return new Date(date).toLocaleDateString('default', {
+		year: 'numeric',
+		month: 'short',
+		day: '2-digit',
+	})
+}
+
+export default defineComponent({
+	setup() {
+		const pageData = usePageData()
+		const page = computed(() => {
+			const { frontmatter, lastUpdated } = pageData.value
+			return {
+				...frontmatter,
+				stage: getStageEmoji(frontmatter.stage),
+				lastUpdated: formatDate(lastUpdated),
+			}
+		})
+		return { page }
+	},
+})
+</script>

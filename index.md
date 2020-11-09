@@ -1,4 +1,7 @@
-# Hi there 😄
+---
+title: Hi there 😄
+stage: seedling
+---
 
 Welcome to my little part of the internet! I'm Chris Shank and this website is a collection of ideas, notes, and writings that I have been thinking through. Think of it like walking through a small garden that I'm cultivating. Some of the thoughts might be incomplete (and possibly incoherent) while others may have blossomed 🌺.
 
@@ -6,7 +9,7 @@ Currently I am exploring the intersection between learning an technology, trying
 
 ## Here are some noteworthy places to dive in to!
 
-- [[How I built this digital garden]]
+- [How I built this digital garden](/notes/how-i-built-this-digital-garden)
 
 ## Looking to connect elsewhere?
 
