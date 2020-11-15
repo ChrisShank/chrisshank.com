@@ -4,14 +4,14 @@
 	font-family: 'Crimson Pro';
 	font-style: normal;
 	font-display: swap;
-	src: url('fonts/Crimson-Pro-vf.ttf');
+	src: url('/fonts/Crimson-Pro-vf.ttf');
 }
 
 @font-face {
 	font-family: 'Crimson Pro';
 	font-style: italic;
 	font-display: swap;
-	src: url('fonts/Crimson-Pro-italic-vf.ttf');
+	src: url('/fonts/Crimson-Pro-italic-vf.ttf');
 }
 
 html {

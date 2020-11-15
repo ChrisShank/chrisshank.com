@@ -6,8 +6,8 @@
 	"author": "chrisshank <chris.shank.23@gmail.com>",
 	"private": true,
 	"scripts": {
-		"dev": "vitepress",
-		"build": "vitepress build"
+		"dev": "vitepress dev src",
+		"build": "vitepress build src"
 	},
 	"devDependencies": {
 		"@tailwindcss/typography": "^0.2.0",

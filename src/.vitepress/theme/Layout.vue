@@ -1,6 +1,6 @@
 <template>
 	<div class="min-h-screen flex flex-col p-4 bg-gray-200">
-		<header class="mb-12">
+		<header class="mb-12 pt-4 md:pl-2">
 			<h1 class="font-medium text-4xl">
 				<span id="logo" class="relative px-1 py-1">
 					<div
@@ -19,9 +19,9 @@
 		<div class="prose-sm md:prose 2xl:prose-xl flex-1 mx-auto flex flex-col">
 			<main class="flex-1">
 				<h1 style="margin-bottom: 0">{{ page.title }}</h1>
-				<div v-if="page.stage" class="md:text-lg xl:text-xl">
-					<span class="">{{ page.stage }}</span>
-					<span class="mx-2">|</span>
+				<div v-if="page.stage">
+					<span>{{ page.stage }}</span>
+					<span> | </span>
 					<span
 						>Last tended to on
 						<span class="whitespace-no-wrap" style="color: rgb(26, 32, 44)">{{
@@ -66,9 +66,9 @@ function formatDate(date: number) {
 
 export default defineComponent({
 	setup() {
-		const pageData = usePageData()
+		const route = useRoute()
 		const page = computed(() => {
-			const { frontmatter, lastUpdated } = pageData.value
+			const { frontmatter, lastUpdated } = route.data
 			return {
 				...frontmatter,
 				stage: getStageEmoji(frontmatter.stage),
