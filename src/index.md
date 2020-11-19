@@ -15,7 +15,7 @@ If you want to learn more about me continue reading about me [here](/about)!
 
 ## Looking to connect elsewhere?
 
-<div class="flex items-center flex-no-wrap space-x-2">
+<div class="flex items-center flex-nowrap space-x-2">
 <a href="https://twitter.com/chrisshank23" class="hide-underline">
 	<svg 
 		viewBox="0 0 20 20"

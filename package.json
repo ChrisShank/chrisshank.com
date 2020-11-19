@@ -12,7 +12,7 @@
 	"devDependencies": {
 		"@tailwindcss/typography": "^0.2.0",
 		"autoprefixer": "^9.8.0",
-		"tailwindcss": "^1.8.0",
+		"tailwindcss": "compat",
 		"vitepress": "^0.7.0"
 	}
 }

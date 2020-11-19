@@ -5,11 +5,11 @@
 				<span id="logo" class="relative px-1 py-1">
 					<div
 						class="logo-box absolute top-0 left-0 bottom-0 right-0 z-10 border-4 border-red-500 border-opacity-50 rounded-sm transform transition-transform duration-200 ease-out"
-						style="--transform-translate-x: -0.15rem; --transform-translate-y: -0.5rem"
+						style="--tw-translate-x: -0.15rem; --tw-translate-y: -0.5rem"
 					></div>
 					<div
 						class="logo-box absolute top-0 left-0 bottom-0 right-0 z-10 border-4 border-indigo-400 border-opacity-50 rounded-sm transform transition-transform duration-200 ease-out"
-						style="--transform-translate-x: 0.25rem; --transform-translate-y: 0.5rem"
+						style="--tw-translate-x: 0.25rem; --tw-translate-y: 0.5rem"
 					></div>
 					<a class="relative z-20 hide-underline" href="/">Chris Shank</a>
 				</span>
@@ -24,7 +24,7 @@
 					<span> | </span>
 					<span
 						>Last tended to on
-						<span class="whitespace-no-wrap" style="color: rgb(26, 32, 44)">{{
+						<span class="whitespace-nowrap" style="color: rgb(26, 32, 44)">{{
 							page.lastUpdated
 						}}</span></span
 					>

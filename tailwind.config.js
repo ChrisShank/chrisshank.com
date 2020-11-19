@@ -20,15 +20,8 @@ const variableFontWeightPlugin = plugin(({ addUtilities }) => {
 })
 
 module.exports = {
-	future: {
-		purgeLayersByDefault: true,
-		removeDeprecatedGapUtilities: true,
-		defaultLineHeights: true,
-		standardFontWeights: true,
-  },
 	purge: [
-    './**/*.md',
-    './.vitepress/**/*.vue',
+    './src/**/*.{md,vue}',
   ],
 	corePlugins: {
 		fontWeight: false,
