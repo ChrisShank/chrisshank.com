@@ -58,8 +58,8 @@ a.hide-underline::after {
 
 #logo:hover .logo-box,
 #logo:focus-within .logo-box {
-	--transform-translate-x: 0 !important;
-	--transform-translate-y: 0 !important;
+	--tw-translate-x: 0 !important;
+	--tw-translate-y: 0 !important;
 }
 
 @tailwind components;

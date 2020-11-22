@@ -2,9 +2,9 @@ const plugin = require('tailwindcss/plugin')
 
 const variableFontWeightPlugin = plugin(({ addUtilities }) => {
 	const fontWeights = [
-		'.font-hairline',
 		'.font-thin',
 		'.font-light',
+		'.font-extralight',
 		'.font-normal',
 		'.font-medium',
 		'.font-semibold',
