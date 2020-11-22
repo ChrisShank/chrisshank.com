@@ -21,7 +21,8 @@ const variableFontWeightPlugin = plugin(({ addUtilities }) => {
 
 module.exports = {
 	purge: [
-    './src/**/*.{md,vue}',
+    './src/**/*.md',
+    './src/.vitepress/theme/**/*.vue',
   ],
 	corePlugins: {
 		fontWeight: false,
