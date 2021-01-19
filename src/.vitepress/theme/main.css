@@ -27,37 +27,45 @@ body {
 
 /* Style anchors */
 a {
-  @apply relative;
-  @apply leading-none;
-  @apply outline-none;
-  @apply z-10;
-  padding: 0 2px;
-  text-decoration: none !important; /* Override for @tailwindcss/typography */
+  font-weight: inherit !important;
+  text-decoration-color: theme('colors.indigo.300');
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 4px;
+  transition: text-decoration-thickness 200ms cubic-bezier(0, 0.8, 0.13, 1);
 }
 
-a::after {
-  @apply bg-indigo-300;
-  @apply rounded-sm;
-  @apply absolute;
-  @apply top-0;
-  @apply right-0;
-  @apply bottom-0;
-  @apply left-0;
+a:hover {
+  text-decoration-thickness: 0.2em;
+}
+
+a[href$='.pdf'i]::after,
+a[href$='/pdf'i]::after,
+a[href$='type=pdf'i]::after,
+a[href*='.pdf#'i]::after {
+  background-image: url(data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48cGF0aCBkPSJNMTgxLjkgMjU2LjFjLTUtMTYtNC45LTQ2LjktMi00Ni45IDguNCAwIDcuNiAzNi45IDIgNDYuOXptLTEuNyA0Ny4yYy03LjcgMjAuMi0xNy4zIDQzLjMtMjguNCA2Mi43IDE4LjMtNyAzOS0xNy4yIDYyLjktMjEuOS0xMi43LTkuNi0yNC45LTIzLjQtMzQuNS00MC44ek04Ni4xIDQyOC4xYzAgLjggMTMuMi01LjQgMzQuOS00MC4yLTYuNyA2LjMtMjkuMSAyNC41LTM0LjkgNDAuMnpNMjQ4IDE2MGgxMzZ2MzI4YzAgMTMuMy0xMC43IDI0LTI0IDI0SDI0Yy0xMy4zIDAtMjQtMTAuNy0yNC0yNFYyNEMwIDEwLjcgMTAuNyAwIDI0IDBoMjAwdjEzNmMwIDEzLjIgMTAuOCAyNCAyNCAyNHptLTggMTcxLjhjLTIwLTEyLjItMzMuMy0yOS00Mi43LTUzLjggNC41LTE4LjUgMTEuNi00Ni42IDYuMi02NC4yLTQuNy0yOS40LTQyLjQtMjYuNS00Ny44LTYuOC01IDE4LjMtLjQgNDQuMSA4LjEgNzctMTEuNiAyNy42LTI4LjcgNjQuNi00MC44IDg1LjgtLjEgMC0uMS4xLS4yLjEtMjcuMSAxMy45LTczLjYgNDQuNS01NC41IDY4IDUuNiA2LjkgMTYgMTAgMjEuNSAxMCAxNy45IDAgMzUuNy0xOCA2MS4xLTYxLjggMjUuOC04LjUgNTQuMS0xOS4xIDc5LTIzLjIgMjEuNyAxMS44IDQ3LjEgMTkuNSA2NCAxOS41IDI5LjIgMCAzMS4yLTMyIDE5LjctNDMuNC0xMy45LTEzLjYtNTQuMy05LjctNzMuNi03LjJ6TTM3NyAxMDVMMjc5IDdjLTQuNS00LjUtMTAuNi03LTE3LTdoLTZ2MTI4aDEyOHYtNi4xYzAtNi4zLTIuNS0xMi40LTctMTYuOXptLTc0LjEgMjU1LjNjNC4xLTIuNy0yLjUtMTEuOS00Mi44LTkgMzcuMSAxNS44IDQyLjggOSA0Mi44IDl6Ii8+PC9zdmc+);
+}
+
+a[href*='youtube.com']::after,
+a[href*='youtu.be']::after {
+  background-image: url(/icons/youtube.svg);
+  height: 0.875em;
+  width: 0.875em;
+  margin: 0 0 0 3px;
+  opacity: 0.5;
+}
+
+a[href*='youtube.com']::after,
+a[href*='youtu.be']::after,
+a[href$='.pdf'i] {
   content: '';
-  transition: transform 200ms cubic-bezier(0, 0.8, 0.13, 1);
-  transform: scaleY(0.1);
-  transform-origin: bottom center;
-  z-index: -1;
-}
-
-a:hover::after,
-a:focus::after {
-  transform: scaleY(1);
-}
-
-/* Allow escape hatch for anchors that don't want these styles */
-a.hide-underline::after {
-  transform: scaleY(0);
+  display: inline-block;
+  position: static;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  height: 0.75em;
+  width: 0.75em;
+  margin: 0 0 0 2px;
+  opacity: 0.5;
 }
 
 #logo:hover .logo-box,
