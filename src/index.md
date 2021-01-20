@@ -11,7 +11,8 @@ If you want to learn more about me continue reading about me [here](/about)!
 
 ## Here are some noteworthy places to dive in to!
 
-- [How I built this digital garden](/notes/how-i-built-this-digital-garden)
+- [Using Bear as a CMS for you digital garden](/notes/using-bear-as-a-cms-for-your-digital-garden)
+- [Learning is a lifestyle](/notes/learning-is-a-lifestyle)
 
 ## Looking to connect elsewhere?
 

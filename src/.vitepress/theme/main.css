@@ -44,16 +44,19 @@ a:hover {
 a::after {
   content: '';
   display: inline-block;
+  background-image: url('/icons/external-link.svg');
   background-repeat: no-repeat;
   background-position: bottom center;
-  height: 0.75em;
-  width: 0.75em;
-  margin-left: 3px;
-  opacity: 0.5;
+  background-size: 100% 100%;
+  height: 0.8em;
+  width: 0.8em;
+  margin: 0 3px 1px;
+  opacity: 0.45;
 }
 
 a[href^='/']::after {
   background-image: url('/logo.png');
+  opacity: 0.7;
 }
 
 a[href='/']::after {
@@ -79,9 +82,9 @@ a[href*='youtu.be']::after {
 }
 
 a[href*='github.com']::after {
+  background-image: url('/icons/github.svg');
   height: 0.875em;
   width: 0.875em;
-  background-image: url('/icons/github.svg');
 }
 
 a[href*='twitter.com']::after {
@@ -94,10 +97,8 @@ a[href*='wiktionary.org']::after,
 a[href*='wikimediafoundation.org']::after,
 a[href*='wikisource.org']::after {
   background-image: url('data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNTEyIj48cGF0aCBkPSJNNjQwIDUxLjJsLS4zIDEyLjJjLTI4LjEuOC00NSAxNS44LTU1LjggNDAuMy0yNSA1Ny44LTEwMy4zIDI0MC0xNTUuMyAzNTguNkg0MTVsLTgxLjktMTkzLjFjLTMyLjUgNjMuNi02OC4zIDEzMC05OS4yIDE5My4xLS4zLjMtMTUgMC0xNS0uM0MxNzIgMzUyLjMgMTIyLjggMjQzLjQgNzUuOCAxMzMuNCA2NC40IDEwNi43IDI2LjQgNjMuNC4yIDYzLjdjMC0zLjEtLjMtMTAtLjMtMTQuMmgxNjEuOXYxMy45Yy0xOS4yIDEuMS01Mi44IDEzLjMtNDMuMyAzNC4yIDIxLjkgNDkuNyAxMDMuNiAyNDAuMyAxMjUuNiAyODguNiAxNS0yOS43IDU3LjgtMTA5LjIgNzUuMy0xNDIuOC0xMy45LTI4LjMtNTguNi0xMzMuOS03Mi44LTE2MC05LjctMTcuOC0zNi4xLTE5LjQtNTUuOC0xOS43VjQ5LjhsMTQyLjUuM3YxMy4xYy0xOS40LjYtMzguMSA3LjgtMjkuNCAyNi4xIDE4LjkgNDAgMzAuNiA2OC4xIDQ4LjEgMTA0LjcgNS42LTEwLjggMzQuNy02OS40IDQ4LjEtMTAwLjggOC45LTIwLjYtMy45LTI4LjYtMzguNi0yOS40LjMtMy42IDAtMTAuMy4zLTEzLjYgNDQuNC0uMyAxMTEuMS0uMyAxMjMuMS0uNnYxMy42Yy0yMi41LjgtNDUuOCAxMi44LTU4LjEgMzEuN2wtNTkuMiAxMjIuOGM2LjQgMTYuMSA2My4zIDE0Mi44IDY5LjIgMTU2LjdMNTU5LjIgOTEuOGMtOC42LTIzLjEtMzYuNC0yOC4xLTQ3LjItMjguM1Y0OS42bDEyNy44IDEuMS4yLjV6Ii8+PC9zdmc+');
-  width: 0.825em;
-  height: 0.825em;
   margin: 0 0 3px 1px;
-  opacity: 0.9;
+  opacity: 0.6;
 }
 
 a:hover::after {
