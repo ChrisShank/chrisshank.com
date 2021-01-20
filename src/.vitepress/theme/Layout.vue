@@ -11,18 +11,28 @@
     </header>
 
     <div class="prose-sm md:prose 2xl:prose-xl flex-1 mx-auto flex flex-col">
-      <main class="flex-1">
-        <h1 style="margin-bottom: 0">{{ page.title }}</h1>
-        <div v-if="page.stage" class="text-gray-600">
-          <span>{{ page.stage }}</span>
-          <span> | </span>
-          <span
-            >Last tended to on
-            <span class="whitespace-nowrap italic">{{ page.lastUpdated }}</span></span
-          >
-        </div>
-        <Content />
-      </main>
+      <transition
+        mode="out-in"
+        enter-from-class="opacity-0"
+        enter-active-class="transition-opacity"
+        leave-active-class="transition-opacity"
+        leave-to-class="opacity-0"
+      >
+        <main :key="route.path" class="flex-1">
+          <h1 style="margin-bottom: 0">{{ page.title }}</h1>
+
+          <div v-if="page.stage" class="text-gray-600">
+            <span>{{ page.stage }}</span>
+            <span> | </span>
+            <span
+              >Last tended to on
+              <span class="whitespace-nowrap italic">{{ page.lastUpdated }}</span></span
+            >
+          </div>
+
+          <Content />
+        </main>
+      </transition>
 
       <footer class="mt-12 pt-1 border-t-2 border-gray-400 text-right">
         ©<span class="font-light">ChrisShank</span><span class="font-extrabold">2020</span>
@@ -31,8 +41,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 import { usePageData, useRoute } from 'vitepress';
 
 function getStageEmoji(stage: string = ''): string {
@@ -56,18 +66,14 @@ function formatDate(date: number) {
   });
 }
 
-export default defineComponent({
-  setup() {
-    const route = useRoute();
-    const page = computed(() => {
-      const { frontmatter, lastUpdated } = route.data;
-      return {
-        ...frontmatter,
-        stage: getStageEmoji(frontmatter.stage),
-        lastUpdated: formatDate(lastUpdated),
-      };
-    });
-    return { page };
-  },
+const route = useRoute();
+
+const page = computed(() => {
+  const { frontmatter, lastUpdated } = route.data;
+  return {
+    ...frontmatter,
+    stage: getStageEmoji(frontmatter.stage),
+    lastUpdated: formatDate(lastUpdated),
+  };
 });
 </script>
