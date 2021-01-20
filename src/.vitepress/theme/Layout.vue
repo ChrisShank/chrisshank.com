@@ -1,19 +1,13 @@
 <template>
   <div class="min-h-full flex flex-col p-4">
-    <header class="mb-12 pt-4 md:pl-2">
-      <h1 class="font-medium text-4xl">
-        <span id="logo" class="relative px-1 py-1">
-          <div
-            class="logo-box absolute top-0 left-0 bottom-0 right-0 z-10 border-4 border-red-500 border-opacity-50 rounded-sm transform transition-transform duration-200 ease-out"
-            style="--tw-translate-x: -0.15rem; --tw-translate-y: -0.5rem"
-          ></div>
-          <div
-            class="logo-box absolute top-0 left-0 bottom-0 right-0 z-10 border-4 border-indigo-400 border-opacity-50 rounded-sm transform transition-transform duration-200 ease-out"
-            style="--tw-translate-x: 0.25rem; --tw-translate-y: 0.5rem"
-          ></div>
-          <a class="relative z-20 hide-underline" href="/">Chris Shank</a>
-        </span>
-      </h1>
+    <header class="mb-2 -ml-2 lg:mb-8 lg:ml-2">
+      <a href="/">
+        <img
+          src="/logo.png"
+          alt="chris shank logo"
+          class="transform hover:scale-110 transition-transform h-12 w-12 md:h-16 md:w-16 lg:h-24 lg:w-24"
+        />
+      </a>
     </header>
 
     <div class="prose-sm md:prose 2xl:prose-xl flex-1 mx-auto flex flex-col">

@@ -21,6 +21,13 @@ const variableFontWeightPlugin = plugin(({ addUtilities }) => {
 
 module.exports = {
   purge: ['./src/**/*.md', './src/.vitepress/theme/**/*.vue'],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#92a47d',
+      },
+    },
+  },
   corePlugins: {
     fontWeight: false,
   },
