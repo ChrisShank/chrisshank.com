@@ -10,3 +10,5 @@ First off, we need to understand that  [[Learning research deepens our understan
 3. Epistemic assumptions
 
 > Empirical generalizations usually apply to /one aspect/ of a complex situation, but educators must consider all aspects of the situation.
+
+

@@ -42,8 +42,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { usePageData, useRoute } from 'vitepress';
+import { computed, watchEffect } from 'vue';
+import { useRoute } from 'vitepress';
 
 function getStageEmoji(stage: string = ''): string {
   switch (stage) {
@@ -75,5 +75,13 @@ const page = computed(() => {
     stage: getStageEmoji(frontmatter.stage),
     lastUpdated: formatDate(lastUpdated),
   };
+});
+
+watchEffect(() => {
+  const ogTitle = document.head.querySelector('[property="og:title"]');
+
+  if (ogTitle) {
+    ogTitle.setAttribute('content', route.data.title);
+  }
 });
 </script>

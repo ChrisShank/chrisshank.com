@@ -85,13 +85,53 @@ function parseText(uuid, title, markdown) {
   const stage = tags
     .split('#')
     .find((tag) => ['seedling', 'budding', 'evergreen'].includes(tag.trim()));
+
+  const { parsedMarkdown, orbit } = parseReviewPrompts(text);
   return `---
 id: ${uuid}
 title: ${title.trim()}
 stage: ${stage}
 ---
-${text.join('\n')}
+${parsedMarkdown}
+
+${orbit}
 `;
+}
+
+function parseReviewPrompts(text) {
+  const prompts = [];
+
+  for (let i = 0; i < text.length; i += 1) {
+    const block = text[i];
+    const nextBlock = text[i + 1];
+
+    if (block.includes('{') && block.includes('}')) {
+      // Cloze Deletion
+      const sentences = block
+        .replace(/^(\W+) (.)/, (match, prefix, content) => content)
+        .split('.')
+        .map((sentence) => sentence.trim());
+
+      for (const sentence of sentences) {
+        if (sentence.includes('{') && sentence.includes('}')) {
+          prompts.push(`<orbit-prompt cloze="${sentence}."></orbit-prompt>`);
+        }
+      }
+
+      text[i] = block.replace(/[{}]/g, '');
+    } else if (block.startsWith('Q. ') && nextBlock?.startsWith('A. ')) {
+      // Prompt
+      const question = block.replace('Q. ', '');
+      const answer = nextBlock.replace('A. ', '');
+      prompts.push(`<orbit-prompt question="${question}" answer="${answer}"></orbit-prompt>`);
+      text.splice(i, 2);
+    }
+  }
+
+  const orbit =
+    prompts.length === 0 ? '' : `<orbit-reviewarea>${prompts.join('\n')}</orbit-reviewarea>`;
+
+  return { orbit, parsedMarkdown: text.join('\n') };
 }
 
 const hyphenateRE = /\s/g;
