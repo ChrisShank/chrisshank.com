@@ -69,7 +69,7 @@ function formatDate(date: number) {
 const route = useRoute();
 
 const page = computed(() => {
-  const { frontmatter, lastUpdated } = route.data;
+  const { frontmatter, lastUpdated } = route.data || {};
   return {
     ...frontmatter,
     stage: getStageEmoji(frontmatter.stage),
@@ -81,7 +81,7 @@ watchEffect(() => {
   const ogTitle = document.head.querySelector('[property="og:title"]');
 
   if (ogTitle) {
-    ogTitle.setAttribute('content', route.data.title);
+    ogTitle.setAttribute('content', route.data?.title);
   }
 });
 </script>

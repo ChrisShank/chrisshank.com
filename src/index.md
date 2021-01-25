@@ -11,8 +11,9 @@ If you want to learn more about me continue reading about me [here](/about)!
 
 ## Here are some noteworthy places to dive in to!
 
-- [Using Bear as a CMS for you digital garden](/notes/using-bear-as-a-cms-for-your-digital-garden)
+- [Effortful learning is effective learning](/notes/effortful-learning-is-effective-learning)
 - [Learning is a lifestyle](/notes/learning-is-a-lifestyle)
+- [Using Bear as a CMS for you digital garden](/notes/using-bear-as-a-cms-for-your-digital-garden)
 
 ## Looking to connect elsewhere?
 
