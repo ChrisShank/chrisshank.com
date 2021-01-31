@@ -6,5 +6,7 @@ import './main.css';
 export default {
   Layout,
   NotFound,
-  enhanceApp({ app, router, siteData }) {},
+  enhanceApp({ app, router, siteData }) {
+    //app.config.isCustomElement = (tag) => tag.startsWith('orbit-');
+  },
 };

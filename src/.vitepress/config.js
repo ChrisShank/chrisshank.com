@@ -18,8 +18,6 @@ module.exports = {
     ],
     ['meta', { name: 'author', content: 'Chris Shank' }],
     ['link', { rel: 'icon', type: 'image/png', href: '/logo.png' }],
-    // og:title is popoulated in Layout.vue
-    ['meta', { property: 'og:title', content: '' }],
     ['meta', { property: 'og:site_name', content: "Chris Shank's Notes" }],
     ['meta', { property: 'orbit:color', content: 'green' }],
     ['link', { rel: 'canonical', href: 'https://chrisshank.com' }],

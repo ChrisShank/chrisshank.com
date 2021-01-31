@@ -76,12 +76,4 @@ const page = computed(() => {
     lastUpdated: formatDate(lastUpdated),
   };
 });
-
-watchEffect(() => {
-  const ogTitle = document.head.querySelector('[property="og:title"]');
-
-  if (ogTitle) {
-    ogTitle.setAttribute('content', route.data?.title);
-  }
-});
 </script>
