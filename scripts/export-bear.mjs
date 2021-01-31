@@ -17,14 +17,10 @@ const bearDB = path.join(
 const exportDir = path.join(process.cwd(), './src/notes');
 
 async function main() {
-  if (isBearDBModified()) {
-    try {
-      await exportMarkdown();
-    } catch (error) {
-      console.log(error);
-    }
-  } else {
-    console.log('No notes have been modified in Bear.');
+  try {
+    await exportMarkdown();
+  } catch (error) {
+    console.log(error);
   }
   console.log('Export completed!');
 }
@@ -73,25 +69,22 @@ function createNote(row) {
     ZCREATIONDATE: created,
     ZMODIFICATIONDATE: modified,
   } = row;
-  const text = parseText(id, title, rawText);
+  const text = parseText(id, rawText);
   const fileName = hyphenate(title);
   const filePath = path.join(exportDir, fileName + '.md');
   writeFile(filePath, text);
 }
 
 // Remove the headline and line of tags
-function parseText(uuid, title, markdown) {
-  const [, tags, ...text] = markdown.trim().split('\n');
+function parseText(uuid, markdown) {
+  const [title, tags, ...text] = markdown.trim().split('\n');
   const stage = tags
     .split('#')
     .find((tag) => ['seedling', 'budding', 'evergreen'].includes(tag.trim()));
 
   const { parsedMarkdown, orbit } = parseReviewPrompts(text);
-  return `---
-id: ${uuid}
-title: ${title.trim()}
-stage: ${stage}
----
+  return `${title}
+<Stage stage="${stage}" />
 ${parsedMarkdown}
 
 ${orbit}

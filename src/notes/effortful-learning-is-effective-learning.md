@@ -1,8 +1,5 @@
----
-id: 6D516214-F0FD-4FD6-8297-A6EA37355E66-23387-00001150C227063F
-title: Effortful learning is effective learning
-stage: seedling
----
+# Effortful learning is effective learning
+<Stage stage="seedling" />
 > Learning that’s easy is like writing in sand, here today and gone tomorrow.
 > — [[Make it Stick]]
 

@@ -1,7 +1,4 @@
----
-title: Hi there 👋🏼
-stage: seedling
----
+# Hi there 👋🏼
 
 Welcome to my little part of the internet! I'm Chris Shank and this website is a collection of ideas, notes, and writings that I have been thinking through. Think of it like walking through a small garden that I'm cultivating. Some of the thoughts might be incomplete (and possibly incoherent) while others may have blossomed 🌺.
 

@@ -1,5 +1,3 @@
----
-title: About Me ✌
----
+# About Me ✌
 
-Describing myself is hard. {.text-indigo-800 .font-black}
+Describing myself is hard.
