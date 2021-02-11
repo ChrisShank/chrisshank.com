@@ -1,6 +1,12 @@
-const footnote = require('markdown-it-footnote');
+// const footnote = require('markdown-it-footnote');
+const wikilinks = require('markdown-it-wikilinks');
 const attrs = require('markdown-it-attrs');
 
+const hyphenateRE = /\s/g;
+function hyphenate(str) {
+  return str.replace(hyphenateRE, '-').toLowerCase();
+}
+/** @type {import('vitepress').UserConfig} */
 module.exports = {
   title: 'Chris Shank',
   description: "Chris Shank's notes.",
@@ -28,11 +34,24 @@ module.exports = {
   ],
   markdown: {
     config(app) {
-      app.use(footnote);
+      //app.use(footnote);
       app.use(attrs);
+      app.use(
+        wikilinks({
+          baseURL: '/notes/',
+          generatePageNameFromLabel: hyphenate,
+        })
+      );
     },
     anchor: {
       permalink: false,
+    },
+  },
+  vueOptions: {
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag) => tag.startsWith('orbit-'),
+      },
     },
   },
 };
