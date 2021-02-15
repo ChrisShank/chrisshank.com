@@ -54,13 +54,13 @@ a::after {
   opacity: 0.45;
 }
 
-a[href^='/']::after {
-  background-image: url('/logo.png');
-  opacity: 0.7;
-}
-
-a[href='/']::after {
-  display: none;
+a[href^='/']::after,
+a[href^='./']::after {
+  background: none;
+  content: '𝕮';
+  font-size: 0.75rem;
+  opacity: 0.6;
+  vertical-align: top;
 }
 
 a[href='/']::after {
@@ -103,12 +103,6 @@ a[href*='wikisource.org']::after {
 
 a:hover::after {
   opacity: 0.3;
-}
-
-#logo:hover .logo-box,
-#logo:focus-within .logo-box {
-  --tw-translate-x: 0 !important;
-  --tw-translate-y: 0 !important;
 }
 
 @tailwind components;

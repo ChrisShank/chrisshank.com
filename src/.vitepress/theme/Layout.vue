@@ -1,13 +1,7 @@
 <template>
   <div class="min-h-full flex flex-col p-4">
     <header class="mb-4 lg:mb-8 lg:ml-6">
-      <a href="/">
-        <img
-          src="/logo.png"
-          alt="chris shank logo"
-          class="transform hover:scale-110 transition-transform h-12 w-12 md:h-16 md:w-16"
-        />
-      </a>
+      <a href="/" class="text-5xl transform hover:scale-110 transition-transform">𝕮</a>
     </header>
 
     <div class="prose-sm md:prose 2xl:prose-xl flex-1 mx-auto flex flex-col">
@@ -24,7 +18,7 @@
       </transition>
 
       <footer class="mt-12 pt-1 border-t-2 border-gray-400 text-right">
-        ©<span class="font-light">ChrisShank</span><span class="font-extrabold">2020</span>
+        ©<span class="font-light">ChrisShank</span><span class="font-extrabold">2021</span>
       </footer>
     </div>
   </div>
