@@ -37,6 +37,11 @@ a {
   transition: color 200ms cubic-bezier(0, 0.8, 0.13, 1);
 }
 
+a[href='/'] {
+  background: none;
+  padding: 0;
+}
+
 a:hover {
   color: theme('colors.primary') !important;
 }
@@ -54,6 +59,10 @@ a::after {
   opacity: 0.45;
 }
 
+a[href='/']::after {
+  display: none;
+}
+
 a[href^='/']::after,
 a[href^='./']::after {
   background: none;
@@ -61,10 +70,6 @@ a[href^='./']::after {
   font-size: 0.75rem;
   opacity: 0.6;
   vertical-align: top;
-}
-
-a[href='/']::after {
-  display: none;
 }
 
 a[href$='.pdf'i]::after,
@@ -101,7 +106,7 @@ a[href*='wikisource.org']::after {
   opacity: 0.6;
 }
 
-a:hover::after {
+a:not(a[href='/']):not(a[href^='/']):not(a[href^='./']):hover::after {
   opacity: 0.3;
 }
 
