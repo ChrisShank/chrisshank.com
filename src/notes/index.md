@@ -1,4 +1,6 @@
-# Hi there 👋🏼
+---
+title: 'Hi there 👋🏼'
+---
 
 Welcome to my little part of the internet! I'm Chris Shank and this website is a collection of ideas, notes, and writings that I have been thinking through. Think of it like walking through a small garden that I'm cultivating. Some of the thoughts might be incomplete (and possibly incoherent) while others may have blossomed 🌺.
 
@@ -8,9 +10,9 @@ If you want to learn more about me continue reading about me [here](/about)!
 
 ## Here are some noteworthy places to dive in to!
 
-- [Effortful learning is effective learning](/notes/effortful-learning-is-effective-learning)
-- [Learning is a lifestyle](/notes/learning-is-a-lifestyle)
-- [Using Bear as a CMS for you digital garden](/notes/using-bear-as-a-cms-for-your-digital-garden)
+- [[Effortful learning is effective learning]]
+- [[Learning is a lifestyle]]
+- [[Using Bear as a CMS for you digital garden]]
 
 ## Looking to connect elsewhere?
 

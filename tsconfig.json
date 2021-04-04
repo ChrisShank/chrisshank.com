@@ -1,0 +1,7 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"types": ["vite/client", "viridi/client"],
+		"lib": ["ESNext"]
+	}
+}
