@@ -19,7 +19,7 @@
     "markdown-it-attrs": "^3.0.3",
     "markdown-it-footnote": "^3.0.2",
     "markdown-it-wikilinks": "^1.0.1",
-    "postcss": "^8.2.4",
+    "postcss": "^8.2.10",
     "sqlite3": "^5.0.1",
     "tailwindcss": "^2.0.0",
     "vitepress": "^0.12.0"
