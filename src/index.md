@@ -14,6 +14,7 @@ If you want to learn more about me continue reading about me [here](/about)!
 
 ## Looking to connect elsewhere?
 
-- [Twitter](https://twitter.com/chrisshank23)
 - [Mastodon](https://mastodon.social/@chrisshank)
+- DM me on Discord (chrisshank#8271)
+- [Twitter](https://twitter.com/chrisshank23)
 - [Github](https://github.com/ChrisShank)
