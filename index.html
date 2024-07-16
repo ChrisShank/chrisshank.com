@@ -693,7 +693,7 @@
       }
     </script>
 
-    <style media="print" onload="setTimeout(() => this.media = 'all', 1000)">
+    <style media="print" onload="requestAnimationFrame(() => this.media = 'all')">
       @font-face {
         font-family: 'Crimson Pro';
         font-style: normal;
