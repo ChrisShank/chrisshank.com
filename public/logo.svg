@@ -1,9 +1,0 @@
-<svg height="128" width="128" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <style>
-    text { fill: #000000; }
-    @media (prefers-color-scheme: dark) {
-      text { fill: #ffffff; }
-    }
-  </style>
-  <text y=".9em" font-size="90">𝕮</text>
-</svg>
