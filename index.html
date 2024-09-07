@@ -26,7 +26,7 @@
 
       @font-face {
         font-family: 'Crimson Pro';
-        font-style: normal;
+        font-style: italic;
         font-display: swap;
         src: url('./Crimson-Pro-italic-vf.ttf') format('truetype');
       }
@@ -49,7 +49,12 @@
         min-height: 100%;
         margin: 0;
         position: relative;
-        text-align: center;
+      }
+
+      main {
+        display: flex;
+        gap: 10rem;
+        padding: 1rem;
       }
 
       xanadu-link {
@@ -60,56 +65,67 @@
         bottom: 0;
         left: 0;
         pointer-events: none;
-        background-color: rgba(185 233 219 / 75%);
+        background-color: rgba(185 233 219 / 70%);
         opacity: 0.7;
+      }
+
+      body:has(xanadu-link:defined) a {
+        color: unset;
+        text-decoration: none;
       }
     </style>
   </head>
 
   <body>
-    <h1>Programming in the ℓittle. ✨</h1>
+    <main>
+      <article id="home">
+        <!-- <h1>Programming in the ℓittle. ✨</h1> -->
+        abcde
+        <a href="#foo">This is a long anchor.</a>
+      </article>
 
-    <!-- Script for adding content  -->
-    <!-- <script type="module">
-        const noop = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        };
-  
-        const toBase64 = (blob) =>
-          new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.readAsDataURL(blob);
-          });
-  
-        const content = document.getElementById('content');
-        const textArea = document.getElementById('text');
-        const dropArea = document.getElementById('drop');
-  
-        dropArea.addEventListener('dragenter', (e) => {
-          noop(e);
-          dropArea.style.border = '1px dotted black';
+      <article id="foo" style="margin-top: 200px">
+        abdcef
+        <a href="#home">This is another long anchor to test out text wrapping.</a> abdcef
+      </article>
+    </main>
+
+    <xanadu-link source="a[href='#foo']" target="a[href='#home']"></xanadu-link>
+
+    <!-- Script for hash routing. -->
+    <script type="module">
+      function enhanceLinks() {
+        document.querySelectorAll('xanadu-link').forEach((link) => link.remove());
+
+        const article = document.querySelector('article[active]');
+
+        if (article === undefined) return;
+
+        article.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          const href = anchor.href;
+          const xanaduLink = document.createElement('xanadu-link');
+          xanaduLink.source = `#${article.id} a[href="${href}"]`;
+          xanaduLink.target = anchor.href;
         });
-  
-        dropArea.addEventListener('drop', async (e) => {
-          noop(e);
-          dropArea.style.border = '1px dashed black';
-  
-          const img = document.createElement('img');
-          const f = e.dataTransfer.files[0];
-          const b64 = await toBase64(f);
-          img.src = b64;
-          content.appendChild(img);
+      }
+
+      function onHashChange() {
+        const hash = location.hash.slice(1) || 'home';
+        const articles = document.querySelectorAll(`article`);
+
+        articles.forEach((article) => {
+          if (article.id === hash) {
+            article.setAttribute('active', '');
+          } else {
+            article.removeAttribute('active');
+          }
         });
-  
-        dropArea.addEventListener('dragover', noop);
-        dropArea.addEventListener('dragexit', noop);
-  
-        window.append = () => {
-          content.innerHTML += textArea.value;
-        };
-      </script> -->
+      }
+
+      window.addEventListener('hashchange', onHashChange);
+
+      onHashChange();
+    </script>
 
     <!-- Script for persist changes made to HTML file -->
     <script type="module">
@@ -242,29 +258,9 @@
       window.saveAs = () => saver.save(document.documentElement.innerHTML, true);
     </script>
 
-    <!-- Script for hash routing. -->
-    <script type="module">
-      function onHashChange() {
-        const hash = location.hash.slice(1);
-        const articles = document.querySelectorAll(`article`);
-
-        articles.forEach((article) => {
-          if (article.id === hash) {
-            article.setAttribute('active', '');
-          } else {
-            article.removeAttribute('active');
-          }
-        });
-      }
-
-      window.addEventListener('hashchange', onHashChange);
-
-      onHashChange();
-    </script>
-
     <!-- VisualObserver -->
     <script type="module">
-      class VisualObserver {
+      export class VisualObserver {
         #root = document.documentElement;
         #rootRect = this.#root.getBoundingClientRect();
 
@@ -586,7 +582,7 @@
         update() {
           if (!this.source || !this.target) return;
 
-          const { sourceRect, targetRect, sourceElement, targetElement } = this;
+          let { sourceRect, targetRect, sourceElement, targetElement } = this;
 
           if (
             sourceRect === undefined ||
@@ -598,38 +594,81 @@
 
           // If the right side of the target is to the left of the right side of the source then swap them
           if (sourceRect.x + sourceRect.width > targetRect.x + targetRect.width) {
-            const temp = sourceRect;
-            sourceRect = targetRect;
-            targetRect = temp;
+            const temp = sourceElement;
+            sourceElement = targetElement;
+            targetElement = temp;
           }
 
-          let sourceVertices = computeInlineVertices(Array.from(sourceElement.getClientRects()));
-          const targetVertices = computeInlineVertices(Array.from(targetElement.getClientRects()));
+          let sourceRects = Array.from(sourceElement.getClientRects());
+          const targetRects = Array.from(targetElement.getClientRects());
 
-          if (sourceVertices.length === 0 || targetVertices.length === 0) {
+          if (sourceRects.length === 0 || targetRects.length === 0) {
             this.style.clipPath = '';
             return;
           }
 
-          // To trace the link we need to rotate the vertices of the source to start on the bottom right corner.
-          const maxRightCoordinate = Math.max.apply(
-            null,
-            sourceVertices.map((vertex) => vertex.x)
-          );
-          const maxBottomCoordinate = Math.max.apply(
-            null,
-            sourceVertices
-              .filter((vertex) => vertex.x === maxRightCoordinate)
-              .map((vertex) => vertex.y)
-          );
+          const vertices = [];
 
-          const index = sourceVertices.findIndex(
-            (vertex) => vertex.x === maxRightCoordinate && vertex.y === maxBottomCoordinate
-          );
+          if (sourceRects.length === 1) {
+            const rect = sourceRects[0];
+            vertices.push(
+              { x: rect.right, y: rect.bottom },
+              { x: rect.left, y: rect.bottom },
+              { x: rect.left, y: rect.top },
+              { x: rect.right, y: rect.top }
+            );
+          } else {
+            sourceRects.reverse();
 
-          sourceVertices = sourceVertices.slice(index).concat(sourceVertices.slice(0, index));
+            const [lastRect, secondToLastRect] = sourceRects;
 
-          this.style.clipPath = verticesToPolygon(sourceVertices.concat(targetVertices));
+            if (Math.round(lastRect.right) > Math.round(secondToLastRect.right)) {
+              vertices.push({ x: lastRect.right, y: lastRect.bottom });
+            } else {
+              vertices.push(
+                { x: secondToLastRect.right, y: secondToLastRect.bottom },
+                { x: lastRect.right, y: lastRect.top },
+                { x: lastRect.right, y: lastRect.bottom }
+              );
+            }
+
+            for (const rect of sourceRects) {
+              vertices.push({ x: rect.left, y: rect.bottom }, { x: rect.left, y: rect.top });
+            }
+
+            const firstRect = sourceRects.at(-1);
+            vertices.push({ x: firstRect.right, y: firstRect.top });
+          }
+
+          if (targetRects.length === 1) {
+            const rect = targetRects[0];
+            vertices.push(
+              { x: rect.left, y: rect.top },
+              { x: rect.right, y: rect.top },
+              { x: rect.right, y: rect.bottom },
+              { x: rect.left, y: rect.bottom }
+            );
+          } else {
+            const [firstRect, secondRect] = targetRects;
+            if (Math.round(firstRect.left) < Math.round(secondRect.left)) {
+              vertices.push({ x: firstRect.left, y: firstRect.top });
+            } else {
+              vertices.push(
+                { x: secondRect.left, y: secondRect.top },
+                { x: firstRect.left, y: firstRect.bottom },
+                { x: firstRect.left, y: firstRect.top }
+              );
+            }
+
+            for (const rect of targetRects) {
+              vertices.push({ x: rect.right, y: rect.top }, { x: rect.right, y: rect.bottom });
+            }
+
+            const lastRect = targetRects.at(-1);
+            vertices.push({ x: lastRect.left, y: lastRect.bottom });
+          }
+
+          this.style.clipPath = verticesToPolygon(vertices);
         }
       }
 
@@ -640,71 +679,48 @@
 
         return `polygon(${vertices.map((vertex) => `${vertex.x}px ${vertex.y}px`).join(', ')})`;
       }
-
-      // The order that vertices are returned is significant
-      function computeInlineVertices(rects) {
-        rects = rects.map((rect) =>
-          DOMRectReadOnly.fromRect({
-            height: Math.round(rect.height),
-            width: Math.round(rect.width),
-            x: Math.round(rect.x),
-            y: Math.round(rect.y),
-          })
-        );
-
-        if (rects.length === 0) return [];
-        else if (rects.length === 1) {
-          const rect = rects[0];
-          return [
-            { x: rect.left, y: rect.top },
-            { x: rect.right, y: rect.top },
-            { x: rect.right, y: rect.bottom },
-            { x: rect.left, y: rect.bottom },
-          ];
-        }
-
-        const vertices = [];
-
-        if (rects[1].left < rects[0].left) {
-          vertices.push(
-            { x: rects[1].left, y: rects[1].top },
-            { x: rects[0].left, y: rects[0].bottom }
-          );
-        }
-
-        const maxRightCoordinate = Math.max.apply(
-          null,
-          rects.map((rect) => rect.right)
-        );
-
-        vertices.push(
-          { x: rects[0].left, y: rects[0].top },
-          { x: maxRightCoordinate, y: rects[0].top }
-        );
-
-        const lastRect = rects.at(-1);
-
-        const maxBottomCoordinate = Math.max.apply(
-          null,
-          rects.filter((rect) => rect.right > lastRect.right).map((rect) => rect.bottom)
-        );
-
-        vertices.push({
-          x: maxRightCoordinate,
-          y: maxBottomCoordinate,
-        });
-
-        if (lastRect.bottom > maxBottomCoordinate) {
-          vertices.push(
-            { x: lastRect.right, y: lastRect.top },
-            { x: lastRect.right, y: lastRect.bottom }
-          );
-        }
-
-        vertices.push({ x: lastRect.left, y: lastRect.bottom });
-
-        return vertices;
-      }
     </script>
+
+    <!-- Script for adding content  -->
+    <!-- <script type="module">
+        const noop = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        };
+  
+        const toBase64 = (blob) =>
+          new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+          });
+  
+        const content = document.getElementById('content');
+        const textArea = document.getElementById('text');
+        const dropArea = document.getElementById('drop');
+  
+        dropArea.addEventListener('dragenter', (e) => {
+          noop(e);
+          dropArea.style.border = '1px dotted black';
+        });
+  
+        dropArea.addEventListener('drop', async (e) => {
+          noop(e);
+          dropArea.style.border = '1px dashed black';
+  
+          const img = document.createElement('img');
+          const f = e.dataTransfer.files[0];
+          const b64 = await toBase64(f);
+          img.src = b64;
+          content.appendChild(img);
+        });
+  
+        dropArea.addEventListener('dragover', noop);
+        dropArea.addEventListener('dragexit', noop);
+  
+        window.append = () => {
+          content.innerHTML += textArea.value;
+        };
+      </script> -->
   </body>
 </html>
