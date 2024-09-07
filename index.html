@@ -18,17 +18,27 @@
 
     <style>
       @font-face {
-        font-family: 'Crimson Pro';
-        font-style: normal;
+        font-family: 'DepatureMono';
         font-display: swap;
-        src: url('./Crimson-Pro-vf.ttf') format('truetype');
+        src: url('./DepartureMono-Regular.woff2') format('woff2');
       }
 
+      /* https://blog.glyphdrawing.club/font-with-built-in-syntax-highlighting/ */
       @font-face {
-        font-family: 'Crimson Pro';
-        font-style: italic;
+        font-family: 'Monaspace-Krypton';
         font-display: swap;
-        src: url('./Crimson-Pro-italic-vf.ttf') format('truetype');
+        src: url('./Monaspace-Krypton.woff2') format('woff2');
+      }
+
+      code {
+        font-family: 'Monaspace-Krypton', monospace;
+        font-feature-settings: 'colr', 'calt';
+      }
+
+      pre {
+        min-width: 0;
+        overflow-x: auto;
+        padding: 2ch;
       }
 
       * {
@@ -36,7 +46,7 @@
       }
 
       html {
-        font-family: 'Crimson Pro', serif;
+        font-family: 'DepatureMono', serif;
         font-optical-sizing: auto;
         font-style: normal;
         font-size: 22px;
@@ -56,128 +66,102 @@
         gap: 10rem;
         padding: 1rem;
       }
-
-      xanadu-link {
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        pointer-events: none;
-        background-color: rgba(185 233 219 / 70%);
-        opacity: 0.7;
-      }
-
-      body:has(xanadu-link:defined) a {
-        color: unset;
-        text-decoration: none;
-      }
     </style>
   </head>
 
   <body>
     <main>
       <article id="home">
-        <!-- <h1>Programming in the ℓittle. ✨</h1> -->
-        abcde
-        <a href="#foo">This is a long anchor.</a>
-      </article>
-
-      <article id="foo" style="margin-top: 200px">
-        abdcef
-        <a href="#home">This is another long anchor to test out text wrapping.</a> abdcef
+        <h1>Programming in the ℓittle. ✨</h1>
       </article>
     </main>
 
-    <xanadu-link source="a[href='#foo']" target="a[href='#home']"></xanadu-link>
-
     <!-- Script for hash routing. -->
     <script type="module">
-      function enhanceLinks() {
-        document.querySelectorAll('xanadu-link').forEach((link) => link.remove());
+      // function enhanceLinks() {
+      //   document.querySelectorAll('xanadu-link').forEach((link) => link.remove());
 
-        const article = document.querySelector('article[active]');
+      //   const article = document.querySelector('article[active]');
 
-        if (article === undefined) return;
+      //   if (article === undefined) return;
 
-        article.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-          const href = anchor.href;
-          const xanaduLink = document.createElement('xanadu-link');
-          xanaduLink.source = `#${article.id} a[href="${href}"]`;
-          xanaduLink.target = anchor.href;
-        });
-      }
+      //   article.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      //     const href = anchor.href;
+      //     const xanaduLink = document.createElement('xanadu-link');
+      //     xanaduLink.source = `#${article.id} a[href="${href}"]`;
+      //     xanaduLink.target = anchor.href;
+      //   });
+      // }
 
-      function onHashChange() {
-        const hash = location.hash.slice(1) || 'home';
-        const articles = document.querySelectorAll(`article`);
+      // function onHashChange() {
+      //   const hash = location.hash.slice(1) || 'home';
+      //   const articles = document.querySelectorAll(`article`);
 
-        articles.forEach((article) => {
-          if (article.id === hash) {
-            article.setAttribute('active', '');
-          } else {
-            article.removeAttribute('active');
-          }
-        });
-      }
+      //   articles.forEach((article) => {
+      //     if (article.id === hash) {
+      //       article.setAttribute('active', '');
+      //     } else {
+      //       article.removeAttribute('active');
+      //     }
+      //   });
+      // }
 
-      window.addEventListener('hashchange', onHashChange);
+      // window.addEventListener('hashchange', onHashChange);
 
-      onHashChange();
+      // onHashChange();
     </script>
 
     <!-- Script for persist changes made to HTML file -->
     <script type="module">
       // Based on https://github.com/jakearchibald/idb-keyval
-      class KeyValueStore {
-        #db;
-        #storeName;
+      // class KeyValueStore {
+      //   #db;
+      //   #storeName;
 
-        constructor(name = 'keyval-store') {
-          this.#storeName = name;
-          const request = indexedDB.open(name);
-          request.onupgradeneeded = () => request.result.createObjectStore(name);
+      //   constructor(name = 'keyval-store') {
+      //     this.#storeName = name;
+      //     const request = indexedDB.open(name);
+      //     request.onupgradeneeded = () => request.result.createObjectStore(name);
 
-          this.#db = new Promise((resolve, reject) => {
-            request.onsuccess = () => resolve(request.result);
-            request.onerror = () => reject(request.error);
-          });
-        }
+      //     this.#db = new Promise((resolve, reject) => {
+      //       request.onsuccess = () => resolve(request.result);
+      //       request.onerror = () => reject(request.error);
+      //     });
+      //   }
 
-        #promisifyTransaction(transaction) {
-          return new Promise((resolve, reject) => {
-            transaction.oncomplete = transaction.onsuccess = () => resolve(transaction.result);
-            transaction.onabort = transaction.onerror = () => reject(transaction.error);
-          });
-        }
+      //   #promisifyTransaction(transaction) {
+      //     return new Promise((resolve, reject) => {
+      //       transaction.oncomplete = transaction.onsuccess = () => resolve(transaction.result);
+      //       transaction.onabort = transaction.onerror = () => reject(transaction.error);
+      //     });
+      //   }
 
-        #getStore(mode) {
-          return this.#db.then((db) =>
-            db.transaction(this.#storeName, mode).objectStore(this.#storeName)
-          );
-        }
+      //   #getStore(mode) {
+      //     return this.#db.then((db) =>
+      //       db.transaction(this.#storeName, mode).objectStore(this.#storeName)
+      //     );
+      //   }
 
-        get(key) {
-          return this.#getStore('readonly').then((store) =>
-            this.#promisifyTransaction(store.get(key))
-          );
-        }
+      //   get(key) {
+      //     return this.#getStore('readonly').then((store) =>
+      //       this.#promisifyTransaction(store.get(key))
+      //     );
+      //   }
 
-        set(key, value) {
-          return this.#getStore('readwrite').then((store) => {
-            store.put(value, key);
-            return this.#promisifyTransaction(store.transaction);
-          });
-        }
+      //   set(key, value) {
+      //     return this.#getStore('readwrite').then((store) => {
+      //       store.put(value, key);
+      //       return this.#promisifyTransaction(store.transaction);
+      //     });
+      //   }
 
-        clear() {
-          return this.#getStore('readwrite').then((store) => {
-            store.clear();
-            return this.#promisifyTransaction(store.transaction);
-          });
-        }
-      }
+      //   clear() {
+      //     return this.#getStore('readwrite').then((store) => {
+      //       store.clear();
+      //       return this.#promisifyTransaction(store.transaction);
+      //     });
+      //   }
+      // }
 
       // TODO: progressively-enhance File System API
       // Feature detection. The API needs to be supported and the app not run in an iframe.
@@ -191,76 +175,76 @@
       //     }
       //   })();
 
-      class HTMLFileSaver {
-        #store = new KeyValueStore('html-file-saver');
+      // class HTMLFileSaver {
+      //   #store = new KeyValueStore('html-file-saver');
 
-        #fileHandler;
+      //   #fileHandler;
 
-        get #file() {
-          if (this.#fileHandler === undefined) {
-            this.#fileHandler = this.#getFile();
-          }
-          return this.#fileHandler;
-        }
+      //   get #file() {
+      //     if (this.#fileHandler === undefined) {
+      //       this.#fileHandler = this.#getFile();
+      //     }
+      //     return this.#fileHandler;
+      //   }
 
-        set #file(file) {
-          this.#file;
-        }
+      //   set #file(file) {
+      //     this.#fileHandler = file;
+      //   }
 
-        async #getFile() {
-          const file = await this.#store.get('file');
+      //   async #getFile() {
+      //     const file = await this.#store.get('file');
 
-          // We need to request permission since the file handler was persisted.
-          // Calling `queryPermission` seems unnecessary atm since the browser prompts permission for each session
-          if (
-            (await file?.queryPermission({ mode: 'readwrite' })) !== 'granted' ||
-            (await file?.requestPermission({ mode: 'readwrite' })) !== 'granted'
-          ) {
-            throw new Error('File write permission not granted.');
-          }
+      //     // We need to request permission since the file handler was persisted.
+      //     // Calling `queryPermission` seems unnecessary atm since the browser prompts permission for each session
+      //     if (
+      //       (await file?.queryPermission({ mode: 'readwrite' })) !== 'granted' ||
+      //       (await file?.requestPermission({ mode: 'readwrite' })) !== 'granted'
+      //     ) {
+      //       throw new Error('File write permission not granted.');
+      //     }
 
-          return file;
-        }
+      //     return file;
+      //   }
 
-        async save(content, promptNewFile = false) {
-          let file = await this.#file;
+      //   async save(content, promptNewFile = false) {
+      //     let file = await this.#file;
 
-          if (file === undefined || promptNewFile) {
-            let suggestedName = 'index.html';
-            // If the web page is a local file, use that name. Otherwise use the name of the
-            if (location.protocol === 'file:' && location.pathname.endsWith('.html')) {
-              const path = location.pathname;
-              suggestedName = path.substring(path.lastIndexOf('/') + 1);
-            } else if (file.name.endsWith('.html')) {
-              suggestedName = file.name;
-            }
+      //     if (file === undefined || promptNewFile) {
+      //       let suggestedName = 'index.html';
+      //       // If the web page is a local file, use that name. Otherwise use the name of the
+      //       if (location.protocol === 'file:' && location.pathname.endsWith('.html')) {
+      //         const path = location.pathname;
+      //         suggestedName = path.substring(path.lastIndexOf('/') + 1);
+      //       } else if (file.name.endsWith('.html')) {
+      //         suggestedName = file.name;
+      //       }
 
-            this.#file = showSaveFilePicker({
-              id: 'self-modifying_html_file',
-              suggestedName,
-              types: [{ description: 'HTML document', accept: { 'text/html': ['.html'] } }],
-            });
+      //       this.#file = showSaveFilePicker({
+      //         id: 'self-modifying_html_file',
+      //         suggestedName,
+      //         types: [{ description: 'HTML document', accept: { 'text/html': ['.html'] } }],
+      //       });
 
-            file = await this.#file;
+      //       file = await this.#file;
 
-            await this.#store.set('file', file);
-          }
+      //       await this.#store.set('file', file);
+      //     }
 
-          const writer = await file.createWritable();
-          await writer.write(content);
-          await writer.close();
-        }
-      }
+      //     const writer = await file.createWritable();
+      //     await writer.write(content);
+      //     await writer.close();
+      //   }
+      // }
 
-      const saver = new HTMLFileSaver();
+      // const saver = new HTMLFileSaver();
 
-      window.save = () => saver.save(document.documentElement.innerHTML);
-      window.saveAs = () => saver.save(document.documentElement.innerHTML, true);
+      // window.save = () => saver.save(document.documentElement.innerHTML);
+      // window.saveAs = () => saver.save(document.documentElement.innerHTML, true);
     </script>
 
     <!-- VisualObserver -->
     <script type="module">
-      export class VisualObserver {
+      class VisualObserver {
         #root = document.documentElement;
         #rootRect = this.#root.getBoundingClientRect();
 
@@ -441,7 +425,7 @@
         }
       }
 
-      window.VisualObserverManager = class VisualObserverManager {
+      class VisualObserverManager {
         #elementMap = new WeakMap();
 
         #vo = new VisualObserver((entries) => {
@@ -479,14 +463,12 @@
             this.#elementMap.delete(target);
           }
         }
-      };
-    </script>
+      }
 
-    <script type="module">
       const visualObserver = new VisualObserverManager();
 
-      class XanaduLink extends HTMLElement {
-        static tagName = 'xanadu-link';
+      class AbstractArrow extends HTMLElement {
+        static tagName = 'abstract-arrow';
 
         static register() {
           customElements.define(this.tagName, this);
@@ -504,12 +486,10 @@
           this.setAttribute('source', source);
         }
 
-        sourceElement = null;
-
-        sourceRect;
-
-        sourceCallback = (entry) => {
-          this.sourceRect = entry.contentRect;
+        #sourceRect;
+        #sourceElement = null;
+        #sourceCallback = (entry) => {
+          this.#sourceRect = entry.contentRect;
           this.update();
         };
 
@@ -523,10 +503,10 @@
           this.setAttribute('target', target);
         }
 
-        targetElement = null;
-        targetRect;
-        targetCallback = (entry) => {
-          this.targetRect = entry.contentRect;
+        #targetRect;
+        #targetElement = null;
+        #targetCallback = (entry) => {
+          this.#targetRect = entry.contentRect;
           this.update();
         };
 
@@ -547,51 +527,57 @@
 
         observeSource() {
           this.unobserveSource();
-          this.sourceElement = document.querySelector(this.source);
+          this.#sourceElement = document.querySelector(this.source);
 
-          if (!this.sourceElement) {
+          if (!this.#sourceElement) {
             throw new Error('source is not a valid element');
           }
 
-          visualObserver.observe(this.sourceElement, this.sourceCallback);
+          visualObserver.observe(this.#sourceElement, this.#sourceCallback);
         }
 
         unobserveSource() {
-          if (this.sourceElement === null) return;
+          if (this.#sourceElement === null) return;
 
-          visualObserver.unobserve(this.sourceElement, this.sourceCallback);
+          visualObserver.unobserve(this.#sourceElement, this.#sourceCallback);
         }
 
         observeTarget() {
           this.unobserveTarget();
-          this.targetElement = document.querySelector(this.target);
+          this.#targetElement = document.querySelector(this.target);
 
-          if (!this.targetElement) {
+          if (!this.#targetElement) {
             throw new Error('target is not a valid element');
           }
 
-          visualObserver.observe(this.targetElement, this.targetCallback);
+          visualObserver.observe(this.#targetElement, this.#targetCallback);
         }
 
         unobserveTarget() {
-          if (this.targetElement === null) return;
+          if (this.#targetElement === null) return;
 
-          visualObserver.unobserve(this.targetElement, this.targetCallback);
+          visualObserver.unobserve(this.#targetElement, this.#targetCallback);
         }
 
         update() {
-          if (!this.source || !this.target) return;
-
-          let { sourceRect, targetRect, sourceElement, targetElement } = this;
-
           if (
-            sourceRect === undefined ||
-            targetRect === undefined ||
-            sourceElement === null ||
-            targetElement === null
+            this.#sourceRect === undefined ||
+            this.#targetRect === undefined ||
+            this.#sourceElement === null ||
+            this.#targetElement === null
           )
             return;
 
+          this.render(this.#sourceRect, this.#targetRect, this.#sourceElement, this.#targetElement);
+        }
+
+        render(sourceRect, targetRect, sourceElement, targetElement) {}
+      }
+
+      class XanaduLink extends AbstractArrow {
+        static tagName = 'xanadu-link';
+
+        render(sourceRect, targetRect, sourceElement, targetElement) {
           // If the right side of the target is to the left of the right side of the source then swap them
           if (sourceRect.x + sourceRect.width > targetRect.x + targetRect.width) {
             const temp = sourceElement;
@@ -668,17 +654,17 @@
             vertices.push({ x: lastRect.left, y: lastRect.bottom });
           }
 
-          this.style.clipPath = verticesToPolygon(vertices);
+          this.style.clipPath = this.verticesToPolygon(vertices);
+        }
+
+        verticesToPolygon(vertices) {
+          if (vertices.length === 0) return '';
+
+          return `polygon(${vertices.map((vertex) => `${vertex.x}px ${vertex.y}px`).join(', ')})`;
         }
       }
 
       XanaduLink.register();
-
-      function verticesToPolygon(vertices) {
-        if (vertices.length === 0) return '';
-
-        return `polygon(${vertices.map((vertex) => `${vertex.x}px ${vertex.y}px`).join(', ')})`;
-      }
     </script>
 
     <!-- Script for adding content  -->
