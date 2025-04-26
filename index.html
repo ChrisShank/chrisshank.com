@@ -16,7 +16,13 @@
       href="data:image/svg+xml,%3Csvg height='128' width='128' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3E text %7B fill: %23000000; %7D @media (prefers-color-scheme: dark) %7B text %7B fill: %23ffffff; %7D %7D %3C/style%3E%3Ctext y='.9em' font-size='90'%3E𝕮%3C/text%3E%3C/svg%3E"
     />
 
-<style id="main.css" editing>/* For now let's externalize this font instead of inlining it. */
+<style id="main.css" editing>@font-face {
+  font-family: 'Recursive';
+  font-display: swap;
+  src: url('./Recursive.ttf') format('ttf');
+}
+
+/* For now let's externalize this font instead of inlining it. */
 /* https://blog.glyphdrawing.club/font-with-built-in-syntax-highlighting/ */
 @font-face {
   font-family: 'Monaspace-Krypton';
@@ -28,8 +34,28 @@
   box-sizing: border-box;
 }
 
+html {
+  font-family: 'Recursive', sans-serif;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-variation-settings:
+    'slnt' 0,
+    'CASL' 0,
+    'CRSV' 0.5,
+    'MONO' 0;
+}
+
+body {
+  margin: auto;
+  max-width: 75ch;
+}
+
 wiki-note {
   display: block;
+  border: solid 1px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
 }
 
 code {
@@ -57,9 +83,6 @@ source-actions {
 
 <style id="editor.css">/* Be careful editing the styles of the editor itself, it could visually break the editor. */
 head {
-  font-family: 'Monaspace-Krypton', monospace;
-  font-feature-settings: 'colr', 'calt';
-
   &:popover-open {
     /* override popover styles */
     background: rgba(0, 0, 0, 0.85);
@@ -96,6 +119,11 @@ head {
       font-weight: bold;
       padding: 0.5rem;
       white-space: pre;
+      font-variation-settings:
+        'slnt' 0,
+        'CASL' 0,
+        'CRSV' 0.5,
+        'MONO' 1;
     }
 
     &[editing]::after {
@@ -347,7 +375,7 @@ mainScript.remove();
       <a href="chrisshank.com">Chris Shank</a>
     </h1>
 
-    <wiki-link id="About Me">
+    <wiki-note id="About Me">
       <h2>About Me</h2>
 
       <p>Hi, I'm Chris! ✌🏻</p>
@@ -365,10 +393,10 @@ mainScript.remove();
         <li><a href="https://github.com/ChrisShank">Github</a></li>
         <li><a href="https://bsky.app/profile/chrisshank.com">Bluesky</a></li>
       </ul>
-    </wiki-link>
+    </wiki-note>
 
-    <wiki-link id="DOM as a hypergraph">
+    <wiki-note id="DOM as a hypergraph">
       <h2>DOM as a hypergraph</h2>
-    </wiki-link>
+    </wiki-note>
   </body>
 </html>
