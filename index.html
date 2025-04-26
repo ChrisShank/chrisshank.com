@@ -16,7 +16,7 @@
       href="data:image/svg+xml,%3Csvg height='128' width='128' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3E text %7B fill: %23000000; %7D @media (prefers-color-scheme: dark) %7B text %7B fill: %23ffffff; %7D %7D %3C/style%3E%3Ctext y='.9em' font-size='90'%3E𝕮%3C/text%3E%3C/svg%3E"
     />
 
-    <style id="main.css" editing>/* For now let's externalize this font instead of inlining it. */
+<style id="main.css" editing>/* For now let's externalize this font instead of inlining it. */
 /* https://blog.glyphdrawing.club/font-with-built-in-syntax-highlighting/ */
 @font-face {
   font-family: 'Monaspace-Krypton';
@@ -55,7 +55,7 @@ source-actions {
 }
 </style>
 
-    <style id="editor.css">/* Be careful editing the styles of the editor itself, it could visually break the editor. */
+<style id="editor.css">/* Be careful editing the styles of the editor itself, it could visually break the editor. */
 head {
   font-family: 'Monaspace-Krypton', monospace;
   font-feature-settings: 'colr', 'calt';
@@ -99,7 +99,7 @@ head {
     }
 
     &[editing]::after {
-      border: solid 2px white;
+      outline: solid 2px white;
     }
   }
 
@@ -109,6 +109,10 @@ head {
 
   script[type='importmap']::after {
     content: attr(id) ' (importmap)';
+  }
+
+  script[type='hash-module']::after {
+    content: '#' attr(id);
   }
 
   textarea {
@@ -137,7 +141,11 @@ head {
 }
 </script>
 
-    <script type="hash-module" id="editor.js">import { get, set } from 'idb-keyval';
+<script>
+
+</script>
+
+<script type="hash-module" id="editor.js">import { get, set } from 'idb-keyval';
 let activeSource = document.head.querySelector('[editing]');
 
 let reload = false;
@@ -148,7 +156,7 @@ let unsavedChanges = false;
 const textarea = document.createElement('textarea');
 document.head.appendChild(textarea);
 
-if (activeSource) {
+if (document.head.hasAttribute('open')) {
   document.head.showPopover();
   textarea.value = activeSource.textContent;
 }
@@ -163,7 +171,9 @@ window.addEventListener("beforeunload", (e) => {
 
 // If a script changes we need to reload the page to apply those changes
 document.head.addEventListener('input', (e) => {
-  if (e.target.matches('script')) reload = true;
+  if (e.target.matches('script')) {
+    reload = true;
+  }
 });
 
 // Set up file saving using the File System Access API (Chromium only) and if it's not available fallback to anchor downloads.
@@ -218,8 +228,9 @@ window.saveSelf = async function saveSelf(promptNewFile = false) {
 
 // When a source tab is clicked open it up in textarea
 document.head.addEventListener('click', (event) => {
-  if (event.target.matches(':is(script, style):not([src])')) {
+  if (event.target.matches(':is(script, style):not([src][editing])')) {
     activeSource?.removeAttribute('editing');
+    activeSource.textContent = textarea.value;
     activeSource = event.target;
     activeSource.setAttribute('editing', '')
     textarea.value = activeSource.textContent;
@@ -236,18 +247,23 @@ document.head.addEventListener('keydown', (event) => {
 
 // Emulate popover="auto" without losing focus
 document.documentElement.addEventListener("click",(e) => {
-  if(document.head.matches(':popover-open') && e.target.closest('head') === null) {
+  if(document.head.matches(':popover-open') && e.target !== window.editSource && e.target.closest('head') === null) {
     document.head.hidePopover();
   }
 });
 
-/* document.head.addEventListener('beforetoggle', (event) => {
-  if (event.newState === "open") {
-    textarea.value = event.target.textContent;
+document.head.addEventListener('beforetoggle', (event) => {
+  // In case the active source was updated while the popover was closed.
+  if (event.newState === "open" && activeSource) {
+    document.head.setAttribute('open', '');
+    textarea.value = activeSource.textContent;
   } else {
-    
+    document.head.removeAttribute('open');
+    if (activeSource) {
+      activeSource.textContent = textarea.value;
+    }
   }
-}); */
+});
 </script>
 
 <script type="hash-module" id="base-element.js">
@@ -287,12 +303,12 @@ export class WikiNote extends BaseElement {
 }
 </script>
 
-    <script type="hash-module" id="main.js">import "#editor.js";
+<script type="hash-module" id="main.js">import "#editor.js";
 import { WikiNote } from '#wiki-note.js';
 
 WikiNote.define();</script>
 
-    <script id="boot-loader.js">// The boot loader initializes a self-contained JS module system, called hash modules.
+<script id="boot-loader.js">// The boot loader initializes a self-contained JS module system, called hash modules.
 // Hash modules are scripts of `type="hash-module"` and have an `id` attribute.
 // They can refer to each other using their ids like `import foo from '#foo'`.
 // The execution timing of this script is important.
@@ -318,11 +334,12 @@ document.head.appendChild(mainScript);
 mainScript.remove();
 </script>
   </head>
+
   <body>
     <source-actions>
       <button onclick="saveSelf()">Save</button>
       <button onclick="saveSelf(true)">Save As</button>
-      <button onclick="document.head.togglePopover()">Edit Source</button>
+      <button id="editSource" onclick="document.head.togglePopover()">Edit Source</button>
       <label><input id="reloadOnSave" type="checkbox" checked="" />Reload as Save</label>
     </source-actions>
 
