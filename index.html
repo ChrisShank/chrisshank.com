@@ -43,13 +43,29 @@ html {
   font-variation-settings:
     'slnt' 0,
     'CASL' 0.5,
-    'CRSV' 0.5,
+    'CRSV' 0,
     'MONO' 0;
 }
 
 body {
   margin: auto;
   max-width: 75ch;
+}
+
+h1 {
+  font-variation-settings:
+    'slnt' 0.25,
+    'CASL' 1,
+    'CRSV' 1,
+    'MONO' 0;
+}
+
+h2 {
+  font-variation-settings:
+    'slnt' 0.25,
+    'CASL' 0.5,
+    'CRSV' 0.75,
+    'MONO' 0;
 }
 
 main {
@@ -69,14 +85,24 @@ pre:has(code) {
   background: black;
   border-radius: 5px;
   padding: 1rem;
+  overflow-x: auto;
   
   code {
-    font-family: 'Monaspace-Krypton', monospace;
-    font-feature-settings: 'colr', 'calt';
     color: #f1f1f1;
-    font-size: 0.8rem;
+    font-family: 'Recursive', monospace;
+    font-size: 75%;
+    font-variation-settings:
+      'slnt' 0,
+      'CASL' 0,
+      'CRSV' 0,
+      'MONO' 1;
     font-weight: bold;
     white-space: pre;
+
+    &.language-html, &.language-css, &.language-js {
+      font-family: 'Monaspace-Krypton', monospace;
+      font-feature-settings: 'colr', 'calt';
+    }
   }
 }
 
@@ -439,9 +465,9 @@ mainScript.remove();
       <wiki-note id="Web page as a REPL">
         <h2>Web page as a REPL</h2>
         <p>Spurred by <a href="https://x.com/rsnous/status/1907964027520573949">Omar Rizwan's tweet</a> about using the browser as a REPL to build an we application from the <code>about:blank</code> page, I started thinking about what it would look like for a website to let you directly modify and persist it's source. This can be a tricky thing to do for a traditional web page. Of course you can pop open the dev tools on any website, change some styles, update some DOM, but there is no good way to persist the changes you made. And even if you were able to, those changes could clash with the way that webpage was architected (e.g. React, etc). The core tension here is the web's single-origin security really dictates that web page was never yours to change, there's a reason we call it “view source”. Another challenge is how do you modify a webpage that is loading tens or even hundreds of separate files.
-          Luckily there's a lot of prior art about alternative approaches to this called “self-contained HTML pages” or “self-modifying HTML pages. My first encounter was Cristobal's <a href="https://cristobal.space/note">self-modify HTML notes</a>. I later learned this is how <a href="https://tiddlywiki.com/">Tiddly wiki</a> has been working for decades. At LIVE 24' I saw Gilad Bracha present about the self-contained environment called  <a href="https://www.youtube.com/watch?v=zEz3ekrvgF8">Ampleforth</a>. Tom Larkworthy has recently been working on a self-contained reactive notebook called <a href="https://github.com/tomlarkworthy/lopecode">LopeCode</a>.<br />
-          It's probably worth defining that a self-contained HTML file is once that contains all of it's source, no additional networks requests to work. This gives you ownership (and credible exits), forking, and local-first editing. A self-modifying HTML file is one that lets you make change and update itself. Usually this is done directly in the UI, occasionally by popping open in the dev tools. From what I can tell the focus is usually on modify the content of the page, not necessarily the source code.
-          I even spent a little bit of time trying figure out how to make my website a self-contained HTML file, but immediately ran into wanting some kind of JS module system to help organize and unfortunately there is no standard that enables that. That was until I <a href="">peeped into Lopecode</a> and realized that Tom had cracked it. It's quite simple when you pull it out. It takes advantage of three things; the fact that script tags don't execute when they have a non-standard <code>type</code> attribute, <a href="">importmaps</a>, and <a href="">Blob URLs</a>. So first we need a new type of <code>script</code> tag, let's call it <code>hash-module</code> and we need to give it an <code>id</code> so other modules can reference it. Here's an example:</p>
+        <p>Luckily there's a lot of prior art about alternative approaches to this called “self-contained HTML pages” or “self-modifying HTML pages. My first encounter was Cristobal's <a href="https://cristobal.space/note">self-modify HTML notes</a>. I later learned this is how <a href="https://tiddlywiki.com/">Tiddly wiki</a> has been working for decades. At LIVE 24' I saw Gilad Bracha present about the self-contained environment called  <a href="https://www.youtube.com/watch?v=zEz3ekrvgF8">Ampleforth</a>. Tom Larkworthy has recently been working on a self-contained reactive notebook called <a href="https://github.com/tomlarkworthy/lopecode">LopeCode</a>.</p>
+        <p>It's probably worth defining that a self-contained HTML file is once that contains all of it's source, no additional networks requests to work. This gives you ownership (and credible exits), forking, and local-first editing. A self-modifying HTML file is one that lets you make change and update itself. Usually this is done directly in the UI, occasionally by popping open in the dev tools. From what I can tell the focus is usually on modify the content of the page, not necessarily the source code.</p>
+        <p>I even spent a little bit of time trying figure out how to make my website a self-contained HTML file, but immediately ran into wanting some kind of JS module system to help organize and unfortunately there is no standard that enables that. That was until I <a href="">peeped into Lopecode</a> and realized that Tom had cracked it. It's quite simple when you pull it out. It takes advantage of three things; the fact that script tags don't execute when they have a non-standard <code>type</code> attribute, <a href="">importmaps</a>, and <a href="">Blob URLs</a>. So first we need a new type of <code>script</code> tag, let's call it <code>hash-module</code> and we need to give it an <code>id</code> so other modules can reference it. Here's an example:</p>
         <pre><code class="language-html">&lt;script type=&quot;hash-module&quot; id=&quot;sum&quot;&gt;
   export const sum = (a, b) =&gt; a + b;
 &lt;/script&gt;
@@ -458,13 +484,15 @@ mainScript.remove();
         <pre><code class="language-js">const imports = {};
 
 document.querySelectorAll('script[type=hash-module]').forEach((module) =&gt; {
-imports['#' + module.id] = URL.createObjectURL(new Blob([module.text], { type: 'application/javascript' }));
+  imports['#' + module.id] = URL.createObjectURL(new Blob([module.text], { type: 'application/javascript' }));
 });
 
 const importmap = document.createElement('script');
 importmap.type = 'importmap';
 importmap.text = JSON.stringify({ imports }, null, 2);
+
 document.head.appendChild(importmap);
+
 importmap.remove();
         </code></pre>
         <details>
