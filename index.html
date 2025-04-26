@@ -62,12 +62,31 @@ wiki-note {
   display: block;
   border: solid 1px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
-  padding: 0.25rem;
+  padding: 1rem;
 }
 
-code {
-  font-family: 'Monaspace-Krypton', monospace;
-  font-feature-settings: 'colr', 'calt';
+pre:has(code) {
+  background: black;
+  border-radius: 5px;
+  padding: 1rem;
+  
+  code {
+    font-family: 'Monaspace-Krypton', monospace;
+    font-feature-settings: 'colr', 'calt';
+    color: #f1f1f1;
+    font-size: 0.8rem;
+    font-weight: bold;
+    white-space: pre;
+  }
+}
+
+/* All inline code blocks */
+*:not(pre) > code {
+  background-color: #656c7633;
+  border-radius: 5px;
+  font-size: 85%;
+  padding: .2em .4em;
+  white-space: break-spaces;
 }
 
 source-actions {
@@ -338,7 +357,7 @@ export class WikiNote extends BaseElement {
 
   get backlinks() {
     return Array.from(
-      document.querySelectorAll(`wiki-link:has(a[href="#${this.id}"])`)
+      document.querySelectorAll(`wiki-note:has(a[href="#${this.id}"])`)
     )
   }
 }
@@ -409,6 +428,55 @@ mainScript.remove();
           <li><a href="https://github.com/ChrisShank">Github</a></li>
           <li><a href="https://bsky.app/profile/chrisshank.com">Bluesky</a></li>
         </ul>
+      </wiki-note>
+
+      <wiki-note id="Web page as a REPL">
+        <h2>Web page as a REPL</h2>
+        <p>Spurred by <a href="https://x.com/rsnous/status/1907964027520573949">Omar Rizwan's tweet</a> about using the browser as a REPL to build an we application from the <code>about:blank</code> page, I started thinking about what it would look like for a website to let you directly modify and persist it's source. This can be a tricky thing to do for a traditional web page. Of course you can pop open the dev tools on any website, change some styles, update some DOM, but there is no good way to persist the changes you made. And even if you were able to, those changes could clash with the way that webpage was architected (e.g. React, etc). The core tension here is the web's single-origin security really dictates that web page was never yours to change, there's a reason we call it “view source”. Another challenge is how do you modify a webpage that is loading tens or even hundreds of separate files.
+          Luckily there's a lot of prior art about alternative approaches to this called “self-contained HTML pages” or “self-modifying HTML pages. My first encounter was Cristobal's <a href="https://cristobal.space/note">self-modify HTML notes</a>. I later learned this is how <a href="https://tiddlywiki.com/">Tiddly wiki</a> has been working for decades. At LIVE 24' I saw Gilad Bracha present about the self-contained environment called  <a href="https://www.youtube.com/watch?v=zEz3ekrvgF8">Ampleforth</a>. Tom Larkworthy has recently been working on a self-contained reactive notebook called <a href="https://github.com/tomlarkworthy/lopecode">LopeCode</a>.<br />
+          It's probably worth defining that a self-contained HTML file is once that contains all of it's source, no additional networks requests to work. This gives you ownership (and credible exits), forking, and local-first editing. A self-modifying HTML file is one that lets you make change and update itself. Usually this is done directly in the UI, occasionally by popping open in the dev tools. From what I can tell the focus is usually on modify the content of the page, not necessarily the source code.
+          I even spent a little bit of time trying figure out how to make my website a self-contained HTML file, but immediately ran into wanting some kind of JS module system to help organize and unfortunately there is no standard that enables that. That was until I <a href="">peeped into Lopecode</a> and realized that Tom had cracked it. It's quite simple when you pull it out. It takes advantage of three things; the fact that script tags don't execute when they have a non-standard <code>type</code> attribute, <a href="">importmaps</a>, and <a href="">Blob URLs</a>. So first we need a new type of <code>script</code> tag, let's call it <code>hash-module</code> and we need to give it an <code>id</code> so other modules can reference it. Here's an example:</p>
+        <pre><code class="language-html">&lt;script type=&quot;hash-module&quot; id=&quot;sum&quot;&gt;
+  export const sum = (a, b) =&gt; a + b;
+&lt;/script&gt;
+
+&lt;script type=&quot;hash-module&quot; id=&quot;main&quot;&gt;
+  import { sum } from '#sum';
+  console.log(sum(1, 2));
+&lt;/script&gt;</code></pre>
+        <details>
+          <summary>Why do I call it a hash module?</summary>
+          <p>Well these modules are referring to each other by ids in a similar way that URL hashes scroll to the element with that <code>id</code>  on page load. Furthermore, adding a hash in the import statement helps differentiate between hash modules and regular JS modules that exist in separate files.
+          As I previously mentioned these <code>script</code> tags aren't executed because browsers don't execute script tags with a non-standard <code>type</code> attribute so we need a process that can boot load them up. Luckily it's a pretty simple process: grab all of the has modules, create a blob URL for each, and create an importmap that maps the <code>id</code> of the module to the Blob URL.</p>
+        </details>
+        <pre><code class="language-js">const imports = {};
+
+document.querySelectorAll('script[type=hash-module]').forEach((module) =&gt; {
+imports['#' + module.id] = URL.createObjectURL(new Blob([module.text], { type: 'application/javascript' }));
+});
+
+const importmap = document.createElement('script');
+importmap.type = 'importmap';
+importmap.text = JSON.stringify({ imports }, null, 2);
+document.head.appendChild(importmap);
+importmap.remove();
+        </code></pre>
+        <details>
+          <summary>Why immediately add then remove the importmap from the DOM?</summary>
+        <p> Well <code>script</code> tags execute immediately after being added to the DOM so nothing changes if they're removed.  It's important in the context of a self-contained HTML file that we don't litter it with things that are transient like this importmap.</p>
+        </details>
+        <p>It's also worth noting the timing that the boot loader runs is important. We want it to execute after all of the hash-modules are parsed, but before all scripts that import hash modules are executed.</p>
+        <p>Now we have a self-contained JS module system with a dozen lines of JavaScript! This</p>
+        <a href="#Towards an editable web">Towards an editable web</a>
+      </wiki-note>
+
+      <wiki-note id="Towards an editable web">
+        <h2>Towards an editable web</h2>
+        <p>The web started off as a readonly medium, networked infrastructure to share and read documents. In the mid 90s, browsers started experimenting the ability to “view source”. Gary Ing <a href="https://viewsource.info/">recounts</a> that it started as a “fun way to let people surfing the web to see this code, if they wanted to.” It's honestly a miracle that the idea of view source has rooted itself so deeply into the web given its unprecedented nature and its tensions with corprate interests. But “view source” also highlights the readonly nature into the web, there's a reason that it's not called “edit source”. When you navigate to a web page you are merely a spectator of its content and view source lets you peak into its plumbing, if you happen to be technically savvy enough to understand the source. The browser might have downloaded a copy of a web page that someone else created, but it's not a copy you own because it's not a copy that you can annotate and modify.</p>
+        <p>It's worth mentioning that the web has become way more interactive since its conception, but it's a different kind of authorship and ownership than I'm interested in. It's a form of permissionful write. The author of the web page had to write a HTML form, program some JavaScript, or implement Drag and Drop to let you modify <em>their</em> web page. You needed the author's permission in order to do that. And it's usually just the content that you are allowed to edit, not the underlying source code. What would the web could look like if it had a model for permissionless write?</p>
+        <p>Well the first challenge is around persistence, web pages are quite transient. The copy of the web page that the browser downloaded is lost when that page is navigated away from or the tab is closed. Even if you could permissionlessly modify a web page that page is still not yours. For the better or worse, to gain ownership of a web page you need to have a local copy stored on <em>your</em> file system.</p>
+        <p><a href="https://www.w3.org/WAI/UA/work/wiki/Definition_of_User_Agent">Definition of User Agent - WAI UA Wiki</a>
+        <a href="https://www.w3.org/TR/UAAG20/#def-user-agent">User Agent Accessibility Guidelines (UAAG) 2.0</a></p>
       </wiki-note>
   
       <wiki-note id="DOM as a hypergraph">
