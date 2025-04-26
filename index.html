@@ -462,7 +462,7 @@ mainScript.remove();
         </ul>
       </wiki-note>
 
-      <wiki-note id="Web page as a REPL">
+      <!-- <wiki-note id="Web page as a REPL">
         <h2>Web page as a REPL</h2>
         <p>Spurred by <a href="https://x.com/rsnous/status/1907964027520573949">Omar Rizwan's tweet</a> about using the browser as a REPL to build an we application from the <code>about:blank</code> page, I started thinking about what it would look like for a website to let you directly modify and persist it's source. This can be a tricky thing to do for a traditional web page. Of course you can pop open the dev tools on any website, change some styles, update some DOM, but there is no good way to persist the changes you made. And even if you were able to, those changes could clash with the way that webpage was architected (e.g. React, etc). The core tension here is the web's single-origin security really dictates that web page was never yours to change, there's a reason we call it “view source”. Another challenge is how do you modify a webpage that is loading tens or even hundreds of separate files.
         <p>Luckily there's a lot of prior art about alternative approaches to this called “self-contained HTML pages” or “self-modifying HTML pages. My first encounter was Cristobal's <a href="https://cristobal.space/note">self-modify HTML notes</a>. I later learned this is how <a href="https://tiddlywiki.com/">Tiddly wiki</a> has been working for decades. At LIVE 24' I saw Gilad Bracha present about the self-contained environment called  <a href="https://www.youtube.com/watch?v=zEz3ekrvgF8">Ampleforth</a>. Tom Larkworthy has recently been working on a self-contained reactive notebook called <a href="https://github.com/tomlarkworthy/lopecode">LopeCode</a>.</p>
@@ -502,7 +502,7 @@ importmap.remove();
         <p>It's also worth noting the timing that the boot loader runs is important. We want it to execute after all of the hash-modules are parsed, but before all scripts that import hash modules are executed.</p>
         <p>Now we have a self-contained JS module system with a dozen lines of JavaScript! This</p>
         <a href="#Towards an editable web">Towards an editable web</a>
-      </wiki-note>
+      </wiki-note> -->
 
       <wiki-note id="Self-conttained JavaScript module system">
         <h2>Self-contained JavaScript module system</h2>
@@ -548,23 +548,38 @@ importmap.remove();
 
 
 
-      <wiki-note id="Towards an editable web">
+      <!-- <wiki-note id="Towards an editable web">
         <h2>Towards an editable web</h2>
         <p>The web started off as a readonly medium, networked infrastructure to share and read documents. In the mid 90s, browsers started experimenting the ability to “view source”. Gary Ing <a href="https://viewsource.info/">recounts</a> that it started as a “fun way to let people surfing the web to see this code, if they wanted to.” It's honestly a miracle that the idea of view source has rooted itself so deeply into the web given its unprecedented nature and its tensions with corprate interests. But “view source” also highlights the readonly nature into the web, there's a reason that it's not called “edit source”. When you navigate to a web page you are merely a spectator of its content and view source lets you peak into its plumbing, if you happen to be technically savvy enough to understand the source. The browser might have downloaded a copy of a web page that someone else created, but it's not a copy you own because it's not a copy that you can annotate and modify.</p>
         <p>It's worth mentioning that the web has become way more interactive since its conception, but it's a different kind of authorship and ownership than I'm interested in. It's a form of permissionful write. The author of the web page had to write a HTML form, program some JavaScript, or implement Drag and Drop to let you modify <em>their</em> web page. You needed the author's permission in order to do that. And it's usually just the content that you are allowed to edit, not the underlying source code. What would the web could look like if it had a model for permissionless write?</p>
         <p>Well the first challenge is around persistence, web pages are quite transient. The copy of the web page that the browser downloaded is lost when that page is navigated away from or the tab is closed. Even if you could permissionlessly modify a web page that page is still not yours. For the better or worse, to gain ownership of a web page you need to have a local copy stored on <em>your</em> file system.</p>
         <p><a href="https://www.w3.org/WAI/UA/work/wiki/Definition_of_User_Agent">Definition of User Agent - WAI UA Wiki</a>
         <a href="https://www.w3.org/TR/UAAG20/#def-user-agent">User Agent Accessibility Guidelines (UAAG) 2.0</a></p>
-      </wiki-note>
+      </wiki-note> -->
   
       <wiki-note id="DOM as a hypergraph">
-        <h2>DOM as a hypergraph</h2>
+        <h2>The DOM is a graph</h2>
+
+        <p>The DOM is more than a tree of HTML elements. It also defines relationships between elements that aren't tree-like. HTML forms convey this. The <code>&lt;form&gt;</code> element has a <code>elements</code> property to let you access all of the associated form controls. Those could be contained deeply within the <code>&lt;form&gt;</code> but also outside of the it via <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#form"><code>form</code></a> attribute. Form controls also have a <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/form"><code>form</code></a> property that their associated with. From this we can see that HTML forms encode some kind of bi-directional graph.</p>
+
+        <p>This framing is useful perspective shift because <a href="#Custom HTML elements let us encode new data structures into the DOM.">Custom HTML elements let us encode new data structures into the DOM.</a></p>
+      </wiki-note>
+
+      <wiki-note id="Custom HTML elements let us encode new data structures into the DOM.">
+        <h2>Custom HTML elements let us encode new data structures into the DOM.</h2>
+
+        <p><a href="#DOM as a hypergraph">The DOM is a graph</a> which can be extended with custom HTML elements. For example, take this very web page! There is a custom <code>&lt;wiki-note&gt;</code> element with a <code>backlinks</code> property that returns a list of <code>&lt;wiki-note&gt;</code>s that link back to this <code>&lt;wiki-note&gt;</code>. This allows us to programmatically traverse this graph of <code>&lt;wiki-note&gt;</code>s and <code>&lt;wiki-note&gt;</code>s can render there backlinks.</p>
       </wiki-note>
 
       <wiki-note id="Evergreen notes">
         <h2>Evergreen notes</h2>
 
         <a href="https://notes.andymatuschak.org/z5E5QawiXCMbtNtupvxeoEX">Andy Matuschak's evergreen notes</a>
+      </wiki-note>
+
+      <wiki-note id="React corporatized the web">
+        <h2>React corporatized the web</h2>
+
       </wiki-note>
     </main>
   </body>
