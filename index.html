@@ -49,7 +49,7 @@ html {
 
 body {
   margin: auto;
-  max-width: 75ch;
+  max-width: 65ch;
 }
 
 h1 {
@@ -66,6 +66,10 @@ h2 {
     'CASL' 0.5,
     'CRSV' 0.75,
     'MONO' 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 main {
@@ -78,7 +82,20 @@ wiki-note {
   display: block;
   border: solid 1px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
-  padding: 1rem;
+  padding: 2rem;
+}
+
+a {
+  /* external links */
+  &[href]:not([href^="#"]):not([href="chrisshank.com"])::after {
+    content: '⎋';
+    color: grey;
+    display:inline-block;
+    font-size: 70%;
+    padding: 1px;
+    text-decoration: none;
+    rotate: 90deg;
+  }
 }
 
 pre:has(code) {
@@ -227,7 +244,7 @@ head {
 }
 </script>
 
-<script type="hash-module" id="save">
+<script type="hash-module" id="save.js">
 // Set up file saving using the File System Access API (Chromium only) and if it's not available fallback to anchor downloads.
 const ID = 'selfContainedFile';
 
@@ -318,16 +335,18 @@ document.head.addEventListener('input', (e) => {
   }
 });
 
-// When a source tab is clicked open it up in textarea
-document.head.addEventListener('click', (event) => {
-  if (event.target.matches(':is(script, style):not([src][editing])')) {
+function updateActiveSource(source) {
+  if (source.matches(':is(script, style):not([src][editing])')) {
     activeSource?.removeAttribute('editing');
     activeSource.textContent = textarea.value;
-    activeSource = event.target;
+    activeSource = source;
     activeSource.setAttribute('editing', '')
     textarea.value = activeSource.textContent;
   }
-});
+}
+
+// When a source tab is clicked open it up in textarea
+document.head.addEventListener('click', (event) => updateActiveSource(event.target));
 
 // Override default tab behavior to insert tabs instead of change keyboard focus
 document.head.addEventListener('keydown', (event) => {
@@ -356,6 +375,26 @@ document.head.addEventListener('beforetoggle', (event) => {
     }
   }
 });
+
+function onHashChange(oldHash, newHash) {
+  const oldElInHead = !!document.getElementById(oldHash)?.closest('head');
+  const newEl = document.getElementById(newHash)
+  const newElInHead = !!newEl?.closest('head');
+  
+  if (oldElInHead && !newElInHead) {
+    document.head.hidePopover();
+  } else if (!oldElInHead && newElInHead) {
+    document.head.showPopover();
+  }
+  
+  if (newElInHead) {
+    updateActiveSource(newEl);
+  }
+}
+
+window.addEventListener("hashchange", (event) => onHashChange(new URL(event.oldURL).hash.slice(1), new URL(event.newURL).hash.slice(1)));
+
+onHashChange('', location.hash.slice(1));
 </script>
 
 <script type="hash-module" id="base-element.js">
@@ -398,7 +437,8 @@ export class WikiNote extends BaseElement {
 }
 </script>
 
-<script type="hash-module" id="main.js">import "#editor.js";
+<script type="hash-module" id="main.js">import '#editor.js';
+import '#save.js';
 import { WikiNote } from '#wiki-note.js';
 
 WikiNote.define();</script>
@@ -534,7 +574,7 @@ importmap.remove();
         <p>This framing is useful perspective shift because <a href="#Custom HTML elements let us encode new data structures into the DOM.">Custom HTML elements let us encode new data structures into the DOM.</a></p>
       </wiki-note>
 
-      <wiki-note id="Custom HTML elements let us encode new data structures into the DOM.">
+      <wiki-note id="Custom HTML elements let us encode new data structures into the DOM">
         <h2>Custom HTML elements let us encode new data structures into the DOM.</h2>
 
         <p><a href="#The DOM is a graph">The DOM is a graph</a> which can be extended with custom HTML elements. For example, take this very web page! The custom <code>&lt;wiki-note&gt;</code> element encodes a graph of notes that it links too and notes that link back to it. We can programmatically traverse through the graph with the <code>links</code> and <code>backlinks</code> properties. It's trivial to implement using query selector.</p>
@@ -570,9 +610,10 @@ importmap.remove();
 
       </wiki-note>
 
-      <wiki-note id="Prompting for permissions is a bad security model">
-        <h2>Prompting for permissions is a bad security model</h2>
+      <wiki-note id="Prompting for permissions is a bad cross-application security model">
+        <h2>Prompting for permissions is a bad cross-application security model</h2>
 
+        <p></p>
       </wiki-note>
     </main>
   </body>
