@@ -244,7 +244,7 @@ head {
 }
 </script>
 
-<script type="hash-module" id="save.js">
+<script type="hash-module" id="save.js">import { get, set } from 'idb-keyval';
 // Set up file saving using the File System Access API (Chromium only) and if it's not available fallback to anchor downloads.
 const ID = 'selfContainedFile';
 
@@ -285,7 +285,7 @@ window.saveSelf = async function saveSelf(promptNewFile = false) {
 }
 </script>
 
-<script type="hash-module" id="editor.js">import { get, set } from 'idb-keyval';
+<script type="hash-module" id="editor.js">
 let activeSource = document.head.querySelector('[editing]');
 
 let reload = false;
@@ -405,13 +405,31 @@ export class BaseElement extends HTMLElement {
     customElements.define(this.tagName, this);
   }
 }
+
+export function css(strings, ...values) {
+  const styles = new CSSStyleSheet();
+  styles.replaceSync(String.raw(strings, ...values));
+  return styles;
+}
 </script>
 
 <script type="hash-module" id="wiki-note.js">
-import {BaseElement} from '#base-element.js';
+import {BaseElement, css} from '#base-element.js';
 
 export class WikiNote extends BaseElement {
   static tagName = 'wiki-note';
+
+  #shadow = this.attachShadow({mode: 'open'});
+
+  connectedCallback() {
+    const backlinkHTML = this.backlinks.length === 0 ? '' : `<hr />
+<div part="backlinks">
+  <h3>Links to this note<h3>
+  <ul >${this.backlinks.map(backlink => `<li><a href="#${backlink.id}">${backlink.id}</a></li>`)}</ul>
+</div>`;
+
+    this.#shadow.setHTMLUnsafe(`<slot></slot>${backlinkHTML}`)
+  }
 
   get id() {
     return super.id;
@@ -426,13 +444,21 @@ export class WikiNote extends BaseElement {
     }
   }
 
+  #links;
   get links() {
-    return Array.from(this.querySelectorAll('a[href^="#"]'))
-      .map(a => document.getElementById(a.getAttribute('href').slice(1)))
+    if (this.#links = undefined) {
+      this.#links = Array.from(this.querySelectorAll('a[href^="#"]'))
+        .map(a => document.getElementById(a.getAttribute('href').slice(1)))
+    }
+    return this.#links;
   }
 
+  #backlinks;
   get backlinks() {
-    return Array.from(document.querySelectorAll(`wiki-note:has(a[href="#${this.id}"])`))
+    if (this.#backlinks === undefined) {
+      this.#backlinks = Array.from(document.querySelectorAll(`wiki-note:has(a[href="#${this.id}"])`))
+    }
+    return this.#backlinks;
   }
 }
 </script>
@@ -571,13 +597,13 @@ importmap.remove();
 
         <p>The DOM is more than a tree of HTML elements. It also defines relationships between elements that aren't tree-like. HTML forms convey this. The <code>&lt;form&gt;</code> element has a <code>elements</code> property to let you access all of the associated form controls. Those could be contained deeply within the <code>&lt;form&gt;</code> but also outside of the it via <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#form"><code>form</code></a> attribute. Form controls also have a <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/form"><code>form</code></a> property that their associated with. From this we can see that HTML forms encode some kind of bi-directional graph.</p>
 
-        <p>This framing is useful perspective shift because <a href="#Custom HTML elements let us encode new data structures into the DOM.">Custom HTML elements let us encode new data structures into the DOM.</a></p>
+        <p>This framing is useful perspective shift because <a href="#Custom HTML elements let us encode new data structures into the DOM">Custom HTML elements let us encode new data structures into the DOM.</a></p>
       </wiki-note>
 
       <wiki-note id="Custom HTML elements let us encode new data structures into the DOM">
         <h2>Custom HTML elements let us encode new data structures into the DOM.</h2>
 
-        <p><a href="#The DOM is a graph">The DOM is a graph</a> which can be extended with custom HTML elements. For example, take this very web page! The custom <code>&lt;wiki-note&gt;</code> element encodes a graph of notes that it links too and notes that link back to it. We can programmatically traverse through the graph with the <code>links</code> and <code>backlinks</code> properties. It's trivial to implement using query selector.</p>
+        <p><a href="#The DOM is a graph">The DOM is a graph</a> which can be extended with custom HTML elements. For example, <a href="#wiki-note.js">take a look</a> at this very web page! The custom <code>&lt;wiki-note&gt;</code> element encodes a graph of notes that it links too and notes that link back to it. We can programmatically traverse through the graph with the <code>links</code> and <code>backlinks</code> properties. It's trivial to implement using query selector.</p>
       </wiki-note>
 
       <wiki-note id="Evergreen notes">
