@@ -627,13 +627,29 @@ importmap.remove();
               <li>entirely new approaches needs to be create for stuff the web already handles (e.g. CSS-in-JS)</li>
             </ul>
           </li>
-          <li>both it's functional ethos and the tooling it requires increases technical gatekeeping to make things on the web. Ecosystem tailwinds require you to opt in to all of this even if you’re looking to use one component.</li>
+          <li>both it's functional ethos and the tooling it requires increases technical gatekeeping to make things on the web. Ecosystem tailwinds require you to opt in to all of this even if you're looking to use one component.</li>
         </ul>
       </wiki-note>
 
-      <wiki-note id="Fonts are computations substrates">
-        <h2>Fonts are computations substrates</h2>
+      <wiki-note id="Fonts as a computational substrate">
+        <h2>Fonts as a computational substrate</h2>
 
+        <p>Font formats like OpenType have <a href="https://simoncozens.github.io/fonts-and-layout/features.html#scripts-and-languages">scripting built-in</a> to handle character shaping (i.e. layout and ligatures). This <a href="#Examples of esoteric fonts">opens up all kinds of possible things</a> we can do with fonts. Fonts are infrastructural across computing environments so we can adversarially transform any environment that lets someone select a font. Imagine a plaintext editor or <code>&lt;textarea&gt;</code> transformed into a rich markdown editor by selecting a font.</p>
+
+      </wiki-note>
+
+      <wiki-note id="Examples of esoteric fonts">
+        <h2>Examples of esoteric fonts</h2>
+        <ul>
+          <li><a href="blog.erk.dev/posts/anifont/">Bad Apple</a> by Valdemar Erk that embeds the <a href="https://en.wikipedia.org/wiki/Bad_Apple!!#Use_of_video_as_a_graphical_and_audio_test">Bad Apple!! shadow art video</a> into a font. (Also <a href="https://www.youtube.com/watch?v=Ms1Drb9Vw9M">check out</a> how Valdemar made the font.)</li>
+          <li><a href="https://www.coderelay.io/fontemon.html">Fontemon</a> by Michael Mulet that embeds an entire pokemon game.</li>
+          <li><a href="https://blog.glyphdrawing.club/font-with-built-in-syntax-highlighting/">FontWithASyntaxHighlighter</a> is a font by Heikki Lotvonen that does syntax highlighting for HTML, CSS, and JS.</li>
+          <li><a href="https://fuglede.github.io/llama.ttf/">llama.ttf</a> by Søren Fuglede Jørgensen that embeds an LLM into the font and predicts tries what you are going to type.</li>
+          <li><a href="http://tom7.org/bovex/">Bovex</a> by Tom Murphy is more of a document format than a font, but uses an LLM to "perfectly" justify text "Super Metroid speedrun documentation" style.</li>
+          <li><a href="https://codepen.io/glukcodepen/pen/xQORev">Digiac</a> that animates SVG (seems to only work in Firefox or Safari) so that you dont have to type in order to trigger the animation.</li>
+          <li><a href="https://devpost.com/software/markdown-font">Markdown</a> by Wei Heng Kuan renders inline markdown.</li>
+          <li><a href="https://blog.janestreet.com/commas-in-big-numbers-everywhere/">Numberline</a> by Tristan Hume that nicely formats numbers.</li>
+        </ul>
       </wiki-note>
 
       <wiki-note id="Prompting for permissions is a bad cross-application security model">
