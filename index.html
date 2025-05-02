@@ -61,6 +61,14 @@ main {
   gap: 1rem;
 }
 
+wiki-note {
+  display: block;
+  border: solid 1px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 1rem 2rem;
+  width: 65ch;
+}
+
 a {
   /* external links */
   &[href]:not([href^="#"]):not([href="chrisshank.com"])::after {
@@ -411,14 +419,6 @@ export class WikiNote extends BaseElement {
   static tagName = 'wiki-note';
 
   static styles = css`
-:host {
-  display: block;
-  border: solid 1px rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  padding: 1rem 2rem;
-  width: 65ch;
-}
-
 h2 {
   text-decoration: underline transparent;
   font-variation-settings:
@@ -458,8 +458,7 @@ h2 {
 
     this.shadowRoot.setHTMLUnsafe(`<h2 part="heading">${this.id}</h2>
 <slot></slot>
-${backlinkHTML}`)
-
+${backlinkHTML}`);
   }
 
   handleEvent(event) {
@@ -517,13 +516,19 @@ const turndown = new TurndownService({
 });
 
 function marshalMarkdown(element) {
-  return turndown.turndown(element.innerHTML);
+  return turndown
+    .turndown(element.innerHTML)
+    .replaceAll(/\[([\w\s\d]+)\]\(#([\w\d\s]+)\)/g, (match, p1, p2) => p1 === p2 ? `[[${p1}]]` : `[[${p1}:${p2}]]`);
 }
 
 const reader = new Parser();
 const writer = new HtmlRenderer();
 
 function parseMarkdown(markdown) {
+  markdown = markdown.replaceAll(/\[\[([\w\d\s\:]+)\]\]/g, (match, p1) => {
+    const [id, name] = p1.split(':');
+    return `<a href="#${id}">${name ?? id}</a>`;
+  })
   return writer.render(reader.parse(markdown));
 }
 
@@ -805,7 +810,11 @@ importmap.remove();
       </wiki-note>
 
       <wiki-note id="Web content has become a commodity">
-        <p>Anil Dash <a href="https://youtube.com/watch?v=9KKMnoTTHJk">talks</a> about how Google and Facebook transformed links and likes, respectively, from acts of personal expression to economic statements. Visually they act and look </p>
+        <p>Anil Dash <a href="https://youtube.com/watch?v=9KKMnoTTHJk">talks</a> about how Google and Facebook transformed links and likes, respectively, from acts of personal expression to economic statements. They might look the same, but they fundamentally change  </p>
+      </wiki-note>
+
+      <wiki-note id="The web browser is deisigned like a file cabinet">
+        <p></p>
       </wiki-note>
     </main>
   </body>
