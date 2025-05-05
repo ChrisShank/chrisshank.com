@@ -174,8 +174,7 @@ head {
       color: #f1f1f1;
       content: attr(id);
       display: block;
-      font-size: 0.9rem;
-      font-weight: bold;
+      font-size: 1rem;
       padding: 0.5rem;
       white-space: pre;
       font-variation-settings:
@@ -194,7 +193,7 @@ head {
     content: attr(id) ' (inline)';
   }
 
-  script[type='importmap']::after {
+  script[type='importmap']::after, script[type='dependencies']::after {
     content: attr(id) ' (importmap)';
   }
 
@@ -221,14 +220,14 @@ head {
 }
 </style>
 
-<script type="importmap" id="dependencies.json">{
+<!-- Firefox and older version of Safari dont support multiple importmaps. https://caniuse.com/mdn-html_elements_script_type_importmap_multiple_import_maps -->
+<script type="dependencies" id="dependencies.json">{
   "imports": {
     "idb-keyval": "https://esm.sh/idb-keyval@5.0.2",
     "turndown": "https://esm.sh/turndown@7.2.0",
     "commonmark": "https://esm.sh/commonmark@0.31.2"
   }
-}
-</script>
+}</script>
 
 <script type="hash-module" id="save.js">import { get, set } from 'idb-keyval';
 // Set up file saving using the File System Access API (Chromium only) and if it's not available fallback to anchor downloads.
@@ -630,15 +629,6 @@ body:has(markdown-tool:state(selecting)) wiki-note:hover {
 }
 </script>
 
-<script type="hash-module" id="main.js">import '#editor.js';
-import '#save.js';
-import { WikiNote } from '#wiki-note.js';
-import { MarkdownTool } from '#markdown-tool.js';
-
-WikiNote.define();
-MarkdownTool.define();
-</script>
-
 <script id="boot-loader.js">// The boot loader initializes a self-contained JS module system, called hash modules.
 // Hash modules are scripts of `type="hash-module"` and have an `id` attribute.
 // They can refer to each other using their ids like `import foo from '#foo'`.
@@ -646,10 +636,12 @@ MarkdownTool.define();
 //   - all hash modules should be defined before this script
 //   - this script should not be a module so it runs synchronously.
 
-const imports = {};
+// There is a bug in Firefox and older version of Safari that only allow one importmap
+// So we need to merge the dependencies and hash modules together.
+const imports = JSON.parse(document.getElementById('dependencies.json').textContent || '').imports || {};
 
 document.querySelectorAll('script[type=hash-module]').forEach((module) => {
-  imports['#' + module.id] = URL.createObjectURL(new Blob([module.text], { type: 'application/javascript' }));
+  imports['#' + module.id] = URL.createObjectURL(new Blob([module.text], { type: 'text/javascript' }));
 });
 
 const importmap = document.createElement('script');
@@ -657,13 +649,15 @@ importmap.type = 'importmap';
 importmap.text = JSON.stringify({ imports }, null, 2);
 document.head.appendChild(importmap);
 importmap.remove();
-
-const mainScript = document.createElement('script');
-mainScript.type = 'module';
-mainScript.text = 'import "#main.js"';
-document.head.appendChild(mainScript);
-mainScript.remove();
 </script>
+
+  <script type="module" id="main.js">import '#editor.js';
+import '#save.js';
+import { WikiNote } from '#wiki-note.js';
+import { MarkdownTool } from '#markdown-tool.js';
+
+WikiNote.define();
+MarkdownTool.define();</script>
   </head>
 
   <body>
