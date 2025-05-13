@@ -1,21 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head popover="manual">
+<!doctype html>
+<html lang="en"><head popover="manual">
     <title>Chris's personal web space</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="author" content="Chris Shank" />
-    <meta name="description" content="Chris's personal web space" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="author" content="Chris Shank">
+    <meta name="description" content="Chris's personal web space">
 
     <!-- Light and dark mode icon -->
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      sizes="any"
-      href="data:image/svg+xml,%3Csvg height='128' width='128' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3E text %7B fill: %23000000; %7D @media (prefers-color-scheme: dark) %7B text %7B fill: %23ffffff; %7D %7D %3C/style%3E%3Ctext y='.9em' font-size='90'%3E𝕮%3C/text%3E%3C/svg%3E"
-    />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg height='128' width='128' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3E text %7B fill: %23000000; %7D @media (prefers-color-scheme: dark) %7B text %7B fill: %23ffffff; %7D %7D %3C/style%3E%3Ctext y='.9em' font-size='90'%3E𝕮%3C/text%3E%3C/svg%3E">
 
-<style id="main.css" editing>@font-face {
+<style id="main.css">@font-face {
   font-family: 'Recursive';
   font-display: swap;
   src: url('./Recursive.woff2') format('woff2');
@@ -66,7 +60,7 @@ wiki-note {
   border: solid 1px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
   padding: 1rem 2rem;
-  width: 65ch;
+  max-width: 65ch;
 }
 
 a {
@@ -270,7 +264,7 @@ window.saveSelf = async function saveSelf(promptNewFile = false) {
 }
 </script>
 
-<script type="hash-module" id="editor.js">
+<script type="hash-module" id="editor.js" editing="">
 let activeSource = document.head.querySelector('[editing]');
 
 let reload = false;
@@ -338,7 +332,7 @@ document.head.addEventListener('click', (event) => updateActiveSource(event.targ
 document.head.addEventListener('keydown', (event) => {
   if (event.key === 'Tab') {
     event.preventDefault();
-    document.execCommand('insertHTML', false, '&nbsp;&nbsp;')
+    document.execCommand('insertHTML', false, '  ')
   }
 })
 
@@ -515,7 +509,14 @@ const turndown = new TurndownService({
 });
 
 function marshalMarkdown(element) {
-  return turndown
+  const frontmatter = `---
+${Array.from(element.attributes)
+  .filter(attr => attr.name !== '')
+  .map(attr => `${attr.name}: ${attr.value}`).join('\n')}
+---
+
+`;
+  return frontmatter + turndown
     .turndown(element.innerHTML)
     .replaceAll(/\[([\w\s\d]+)\]\(#([\w\d\s]+)\)/g, (match, p1, p2) => p1 === p2 ? `[[${p1}]]` : `[[${p1}:${p2}]]`);
 }
@@ -524,6 +525,7 @@ const reader = new Parser();
 const writer = new HtmlRenderer();
 
 function parseMarkdown(markdown) {
+
   markdown = markdown.replaceAll(/\[\[([\w\d\s\:]+)\]\]/g, (match, p1) => {
     const [id, name] = p1.split(':');
     return `<a href="#${id}">${name ?? id}</a>`;
@@ -582,11 +584,18 @@ body:has(markdown-tool:state(selecting)) wiki-note:hover {
   handleEvent(event) {
     if (event.type === 'click' && event.target.closest('button')) {
       if (this.#internals.states.has('editing')) {
-        this.#selectedElement.removeAttribute('editing-markdown', '');
-
         this.#internals.states.delete('editing');
+        const [, frontmatter, markdown] = this.#textarea.value.split('---\n');
+        
+        // Remove all current attributes
+        Array.from(this.#selectedElement.attributes).forEach(attr => this.#selectedElement.removeAttribute(attr.name))
+        
+        const attributes = frontmatter.split('\n')
+          .filter(property => property !== '')
+          .map(property => property.split(': '))
+          .forEach(([name, value]) => this.#selectedElement.setAttribute(name, value))
 
-        this.#selectedElement.innerHTML = parseMarkdown(this.#textarea.value);
+        this.#selectedElement.innerHTML = parseMarkdown(markdown);
         this.#selectedElement = null;
         this.#textarea.style.top = this.#textarea.style.left = this.#textarea.style.width = this.#textarea.style.height = '';
         this.#textarea.hidePopover();
@@ -615,7 +624,6 @@ body:has(markdown-tool:state(selecting)) wiki-note:hover {
     this.#internals.states.delete('selecting');
     this.#internals.states.add('editing');
 
-    this.#selectedElement.setAttribute('editing-markdown', '');
     this.#textarea.value = marshalMarkdown(this.#selectedElement);
 
     const {offsetTop, offsetLeft, offsetWidth, offsetHeight} = this.#selectedElement;
@@ -673,39 +681,29 @@ MarkdownTool.define();</script>
     </header>
 
     <main>
-      <wiki-note id="About Me">
-
-        <p>Hi, I'm Chris! ✌🏻</p>
-        <p>
-          I explore alternative branches of computing that are communal, prosocial and decorporatized. I'm particularly interested in how we
-          can nudge the web in this direction.
-        </p>
-        <p>
-          I'm an independent researcher, which means my <em>open</em> research is directly funded by people like you! Your support means
-          everything, so check out <a href="https://github.com/sponsors/ChrisShank/">sponsorship page</a> to get inside access to what I'm
-          exploring.
-        </p>
-  
-        <ul>
-          <li><a href="https://github.com/ChrisShank">Github</a></li>
-          <li><a href="https://bsky.app/profile/chrisshank.com">Bluesky</a></li>
-        </ul>
-      </wiki-note>
+      <wiki-note id="About Me test"><p>Hi, I'm Chris! ✌🏻</p>
+<p>I explore alternative branches of computing that are communal, prosocial and decorporatized. I'm particularly interested in how we can nudge the web in this direction.</p>
+<p>I'm an independent researcher, which means my <em>open</em> research is directly funded by people like you! Your support means everything, so check out <a href="https://github.com/sponsors/ChrisShank/">sponsorship page</a> to get inside access to what I'm exploring.</p>
+<ul>
+<li><a href="https://github.com/ChrisShank">Github</a></li>
+<li><a href="https://bsky.app/profile/chrisshank.com">Bluesky</a></li>
+</ul>
+</wiki-note>
 
       <wiki-note id="Web page as a REPL">
         <p>Spurred by <a href="https://x.com/rsnous/status/1907964027520573949">Omar Rizwan's tweet</a> about using the browser as a REPL to build an we application from the <code>about:blank</code> page, I started thinking about what it would look like for a website to let you directly modify and persist it's source. This can be a tricky thing to do for a traditional web page. Of course you can pop open the dev tools on any website, change some styles, update some DOM, but there is no good way to persist the changes you made. And even if you were able to, those changes could clash with the way that webpage was architected (e.g. React, etc). The core tension here is the web's single-origin security really dictates that web page was never yours to change, there's a reason we call it “view source”. Another challenge is how do you modify a webpage that is loading tens or even hundreds of separate files.
-        <p>Luckily there's a lot of prior art about alternative approaches to this called “self-contained HTML pages” or “self-modifying HTML pages. My first encounter was Cristobal's <a href="https://cristobal.space/note">self-modify HTML notes</a>. I later learned this is how <a href="https://tiddlywiki.com/">Tiddly wiki</a> has been working for decades. At LIVE 24' I saw Gilad Bracha present about the self-contained environment called  <a href="https://www.youtube.com/watch?v=zEz3ekrvgF8">Ampleforth</a>. Tom Larkworthy has recently been working on a self-contained reactive notebook called <a href="https://github.com/tomlarkworthy/lopecode">LopeCode</a>.</p>
+        </p><p>Luckily there's a lot of prior art about alternative approaches to this called “self-contained HTML pages” or “self-modifying HTML pages. My first encounter was Cristobal's <a href="https://cristobal.space/note">self-modify HTML notes</a>. I later learned this is how <a href="https://tiddlywiki.com/">Tiddly wiki</a> has been working for decades. At LIVE 24' I saw Gilad Bracha present about the self-contained environment called  <a href="https://www.youtube.com/watch?v=zEz3ekrvgF8">Ampleforth</a>. Tom Larkworthy has recently been working on a self-contained reactive notebook called <a href="https://github.com/tomlarkworthy/lopecode">LopeCode</a>.</p>
         
         <a href="#Towards an editable web">Towards an editable web</a>
       </wiki-note>
 
       <wiki-note id="Self-contained JavaScript module system">
         <p>The JavaScript module system only works with external JavaScript files. There are open WHATWG issues to address these limitations by <a href="https://github.com/whatwg/html/issues/11202">adding a script <code>exports</code> property</a> or being able to <a href="https://github.com/whatwg/html/issues/11202">import/export from inline module scripts</a>. In the meantime, <a href="https://bsky.app/profile/larkworthy.bsky.social">Tom Larkworthy</a> figured out a <a href="https://github.com/tomlarkworthy/lopecode/blob/main/%40tomlarkworthy_lopepage.html#L3483">way</a> to do this in browsers today. It takes advantage of three things; the fact that script tags don't execute when they have a non-standard <code>type</code> attribute, <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script/type/importmap">importmaps</a>, and <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL_static">Blob URLs</a>. So first we need a new type of <code>script</code> tag, let's call it <code>hash-module</code> and we need to give it an <code>id</code> so other modules can reference it by name. Here's an example:</p>
-        <pre><code class="language-html">&lt;script type=&quot;hash-module&quot; id=&quot;sum&quot;&gt;
+        <pre><code class="language-html">&lt;script type="hash-module" id="sum"&gt;
   export const sum = (a, b) =&gt; a + b;
 &lt;/script&gt;
 
-&lt;script type=&quot;hash-module&quot; id=&quot;main&quot;&gt;
+&lt;script type="hash-module" id="main"&gt;
   import { sum } from '#sum';
   console.log(sum(1, 2));
 &lt;/script&gt;</code></pre>
@@ -807,9 +805,9 @@ importmap.remove();
         <p>Anil Dash <a href="https://youtube.com/watch?v=9KKMnoTTHJk">talks</a> about how Google and Facebook transformed links and likes, respectively, from acts of personal expression to economic statements. They might look the same, but they fundamentally change  </p>
       </wiki-note>
 
-      <wiki-note id="The web browser is deisigned like a file cabinet">
-        <p></p>
-      </wiki-note>
+      <wiki-note id="The web browser is deisigned like a file cabinet"><p>Imagine the web browser is a file cabinet. Each web page is a manila folder with the title of the web page written on the folder's tab. There's only enough room to pull out and view one or two folders at a time. There's no space outside of the folder to do anything. If you're lucky you can reorder the folders. Browsing through a file cabinet invokes a deep passivity of interaction and ownership.</p>
+</wiki-note>
     </main>
-  </body>
-</html>
+  
+
+</body></html>
