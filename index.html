@@ -9,7 +9,7 @@
     <!-- Light and dark mode icon -->
     <link rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg height='128' width='128' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cstyle%3E text %7B fill: %23000000; %7D @media (prefers-color-scheme: dark) %7B text %7B fill: %23ffffff; %7D %7D %3C/style%3E%3Ctext y='.9em' font-size='90'%3E𝕮%3C/text%3E%3C/svg%3E">
 
-<style id="main.css" editing="">@font-face {
+<style id="main.css">@font-face {
   font-family: 'Recursive';
   font-display: swap;
   src: url('./Recursive.woff2') format('woff2');
@@ -67,6 +67,7 @@ a {
     padding: 1px;
     text-decoration: none;
     rotate: 90deg;
+    vertical-align: middle;
   }
 }
 
@@ -326,16 +327,16 @@ document.head.addEventListener('click', (event) => updateActiveSource(event.targ
 document.head.addEventListener('keydown', (event) => {
   if (event.key === 'Tab') {
     event.preventDefault();
-    document.execCommand('insertHTML', false, '  ')
+    
+    // This isn't exactly what we want for back tabbing, since it just deletes text where the cursor is.
+    if (event.shiftKey) {
+      document.execCommand('delete');
+      document.execCommand('delete');
+    } else {
+      document.execCommand('insertHTML', false, '  ');
+    }
   }
 })
-
-// Emulate popover="auto" without losing focus
-document.documentElement.addEventListener("click",(e) => {
-  if(document.head.matches(':popover-open') && e.target !== window.editSource && e.target.closest('head') === null) {
-    document.head.hidePopover();
-  }
-});
 
 document.head.addEventListener('beforetoggle', (event) => {
   // In case the active source was updated while the popover was closed.
@@ -491,7 +492,7 @@ ${backlinkHTML}`);
 }
 </script>
 
-<script type="hash-module" id="markdown-tool.js">import TurndownService from 'turndown';
+<script type="hash-module" id="markdown-tool.js" editing="">import TurndownService from 'turndown';
 import {Parser, HtmlRenderer} from 'commonmark';
 import {BaseElement, css} from '#base-element.js';
 
@@ -520,7 +521,7 @@ const writer = new HtmlRenderer();
 
 function parseMarkdown(markdown) {
 
-  markdown = markdown.replaceAll(/\[\[([\w\d\s\:]+)\]\]/g, (match, p1) => {
+  markdown = markdown.replaceAll(/\[\[([\w\d\s\:\'\"\-\.]+)\]\]/g, (match, p1) => {
     const [id, name] = p1.split(':');
     return `<a href="#${id}">${name ?? id}</a>`;
   })
@@ -627,6 +628,7 @@ body:has(markdown-tool:state(selecting)) wiki-note:hover {
     this.#textarea.style.height = `${offsetHeight}px`;
 
     this.#textarea.showPopover();
+    this.#textarea.focus();
   }
 }
 </script>
@@ -675,7 +677,7 @@ MarkdownTool.define();</script>
     </header>
 
     <main>
-      <wiki-note id="About Me test"><p>Hi, I'm Chris! ✌🏻</p>
+      <wiki-note id="About Me"><p>Hi, I'm Chris! ✌🏻</p>
 <p>I explore alternative branches of computing that are communal, prosocial and decorporatized. I'm particularly interested in how we can nudge the web in this direction.</p>
 <p>I'm an independent researcher, which means my <em>open</em> research is directly funded by people like you! Your support means everything, so check out <a href="https://github.com/sponsors/ChrisShank/">sponsorship page</a> to get inside access to what I'm exploring.</p>
 <ul>
@@ -684,12 +686,22 @@ MarkdownTool.define();</script>
 </ul>
 </wiki-note>
 
-      <wiki-note id="Web page as a REPL">
-        <p>Spurred by <a href="https://x.com/rsnous/status/1907964027520573949">Omar Rizwan's tweet</a> about using the browser as a REPL to build an we application from the <code>about:blank</code> page, I started thinking about what it would look like for a website to let you directly modify and persist it's source. This can be a tricky thing to do for a traditional web page. Of course you can pop open the dev tools on any website, change some styles, update some DOM, but there is no good way to persist the changes you made. And even if you were able to, those changes could clash with the way that webpage was architected (e.g. React, etc). The core tension here is the web's single-origin security really dictates that web page was never yours to change, there's a reason we call it “view source”. Another challenge is how do you modify a webpage that is loading tens or even hundreds of separate files.
-        </p><p>Luckily there's a lot of prior art about alternative approaches to this called “self-contained HTML pages” or “self-modifying HTML pages. My first encounter was Cristobal's <a href="https://cristobal.space/note">self-modify HTML notes</a>. I later learned this is how <a href="https://tiddlywiki.com/">Tiddly wiki</a> has been working for decades. At LIVE 24' I saw Gilad Bracha present about the self-contained environment called  <a href="https://www.youtube.com/watch?v=zEz3ekrvgF8">Ampleforth</a>. Tom Larkworthy has recently been working on a self-contained reactive notebook called <a href="https://github.com/tomlarkworthy/lopecode">LopeCode</a>.</p>
-        
-        <a href="#Towards an editable web">Towards an editable web</a>
-      </wiki-note>
+      <wiki-note id="How does this web page work?"><ul>
+<li>What if anyone could <a href="#save a copy of my website">Towards an editable web</a> (i.e. gain ownership)?</li>
+<li>What if the <a href="#Web page is it's own REPL">Web page is it's own REPL</a>?</li>
+<li>What if anyone could <a href="#main.css">see and modify the source without opening dev tools</a>?</li>
+<li>What if there was a tool that let me <a href="#markdown-tool.js">edit any part of the DOM tree as markdown</a>?</li>
+<li>What if we encode things like a wiki graph into the DOM (i.e. <a href="#The DOM is a graph">The DOM is a graph</a>)?
+<ul>
+<li>Think things like backlinks and graph visualization</li>
+</ul>
+</li>
+<li>What if a web page had a <a href="#Self-contained JavaScript module system">Self-contained JavaScript module system</a>?</li>
+</ul>
+</wiki-note><wiki-note id="Web page is it's own REPL"><p>Spurred by <a href="https://x.com/rsnous/status/1907964027520573949">Omar Rizwan's tweet</a> about using the browser as a REPL to build an we application from the <code>about:blank</code> page, I started thinking about what it would look like for a website to let you directly modify and persist it's source. This can be a tricky thing to do for a traditional web page. Of course you can pop open the dev tools on any website, change some styles, update some DOM, but there is no good way to persist the changes you made. And even if you were able to, those changes could clash with the way that webpage was architected (e.g. React, etc). The core tension here is the web's single-origin security really dictates that web page was never yours to change, there's a reason we call it “view source”. Another challenge is how do you modify a webpage that is loading tens or even hundreds of separate files.</p>
+<p>Luckily there's a lot of prior art about alternative approaches to this called “self-contained HTML pages” or “self-modifying HTML pages. My first encounter was Cristobal's <a href="https://cristobal.space/note">self-modify HTML notes</a>. I later learned this is how <a href="https://tiddlywiki.com/">Tiddly wiki</a> has been working for decades. At LIVE 24' I saw Gilad Bracha present about the self-contained environment called <a href="https://www.youtube.com/watch?v=zEz3ekrvgF8">Ampleforth</a>. Tom Larkworthy has recently been working on a self-contained reactive notebook called <a href="https://github.com/tomlarkworthy/lopecode">LopeCode</a>.</p>
+<p><a href="#Towards an editable web">Towards an editable web</a></p>
+</wiki-note>
 
       <wiki-note id="Self-contained JavaScript module system">
         <p>The JavaScript module system only works with external JavaScript files. There are open WHATWG issues to address these limitations by <a href="https://github.com/whatwg/html/issues/11202">adding a script <code>exports</code> property</a> or being able to <a href="https://github.com/whatwg/html/issues/11202">import/export from inline module scripts</a>. In the meantime, <a href="https://bsky.app/profile/larkworthy.bsky.social">Tom Larkworthy</a> figured out a <a href="https://github.com/tomlarkworthy/lopecode/blob/main/%40tomlarkworthy_lopepage.html#L3483">way</a> to do this in browsers today. It takes advantage of three things; the fact that script tags don't execute when they have a non-standard <code>type</code> attribute, <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script/type/importmap">importmaps</a>, and <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL_static">Blob URLs</a>. So first we need a new type of <code>script</code> tag, let's call it <code>hash-module</code> and we need to give it an <code>id</code> so other modules can reference it by name. Here's an example:</p>
