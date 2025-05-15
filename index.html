@@ -259,7 +259,7 @@ window.saveSelf = async function saveSelf(promptNewFile = false) {
 }
 </script>
 
-<script type="hash-module" id="editor.js">
+<script type="hash-module" id="editor.js" editing="">
 let activeSource = document.head.querySelector('[editing]');
 
 let reload = false;
@@ -323,6 +323,12 @@ function updateActiveSource(source) {
 // When a source tab is clicked open it up in textarea
 document.head.addEventListener('click', (event) => updateActiveSource(event.target));
 
+document.head.addEventListener('dblclick', (event) => {
+  if (event.target.matches(':is(script, style):not([src])')) {
+    history.pushState(null, null, `#${event.target.id}`);
+  }
+});
+
 // Override default tab behavior to insert tabs instead of change keyboard focus
 document.head.addEventListener('keydown', (event) => {
   if (event.key === 'Tab') {
@@ -355,7 +361,7 @@ function onHashChange(oldHash, newHash) {
   const oldElInHead = !!document.getElementById(oldHash)?.closest('head');
   const newEl = document.getElementById(newHash)
   const newElInHead = !!newEl?.closest('head');
-  
+
   if (oldElInHead && !newElInHead) {
     document.head.hidePopover();
   } else if (!oldElInHead && newElInHead) {
@@ -492,7 +498,7 @@ ${backlinkHTML}`);
 }
 </script>
 
-<script type="hash-module" id="markdown-tool.js" editing="">import TurndownService from 'turndown';
+<script type="hash-module" id="markdown-tool.js">import TurndownService from 'turndown';
 import {Parser, HtmlRenderer} from 'commonmark';
 import {BaseElement, css} from '#base-element.js';
 
@@ -513,7 +519,7 @@ ${Array.from(element.attributes)
 `;
   return frontmatter + turndown
     .turndown(element.innerHTML)
-    .replaceAll(/\[([\w\s\d]+)\]\(#([\w\d\s]+)\)/g, (match, p1, p2) => p1 === p2 ? `[[${p1}]]` : `[[${p1}:${p2}]]`);
+    .replaceAll(/\[([\w\s\d\:\'\"\-\.]+)\]\(#([\w\d\s\:\'\"\-\.]+)\)/g, (match, p1, p2) => p1 === p2 ? `[[${p2}]]` : `[[${p2}:${p1}]]`);
 }
 
 const reader = new Parser();
@@ -687,7 +693,7 @@ MarkdownTool.define();</script>
 </wiki-note>
 
       <wiki-note id="How does this web page work?"><ul>
-<li>What if anyone could <a href="#save a copy of my website">Towards an editable web</a> (i.e. gain ownership)?</li>
+<li>What if anyone could <a href="#Towards an editable web">save a copy of my website</a> (i.e. gain ownership)?</li>
 <li>What if the <a href="#Web page is it's own REPL">Web page is it's own REPL</a>?</li>
 <li>What if anyone could <a href="#main.css">see and modify the source without opening dev tools</a>?</li>
 <li>What if there was a tool that let me <a href="#markdown-tool.js">edit any part of the DOM tree as markdown</a>?</li>
