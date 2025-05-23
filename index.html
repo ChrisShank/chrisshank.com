@@ -325,7 +325,7 @@ document.head.addEventListener('click', (event) => updateActiveSource(event.targ
 
 document.head.addEventListener('dblclick', (event) => {
   if (event.target.matches(':is(script, style):not([src])')) {
-    history.pushState(null, null, `#${event.target.id}`);
+    history.pushState(null, null, `#${encodeURIComponent(event.target.id)}`);
   }
 });
 
@@ -457,7 +457,7 @@ ${backlinkHTML}`);
 
   handleEvent(event) {
     if (event.type === 'click' && event.target.closest('h2')) {
-      history.pushState(null, null, `#${this.id}`);
+      history.pushState(null, null, `#${encodeURIComponent(this.id)}`);
     }
   }
 
