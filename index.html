@@ -447,7 +447,7 @@ h2 {
     const backlinkHTML = this.backlinks.length === 0 ? '' : `<hr />
 <div part="backlinks">
   <h3>Links to this note<h3>
-  <ul >${this.backlinks.map(backlink => `<li><a href="#${backlink.id}">${backlink.id}</a></li>`)}</ul>
+  <ul >${this.backlinks.map(backlink => `<li><a href="#${encodeURIComponent(backlink.id)}">${backlink.id}</a></li>`)}</ul>
 </div>`;
 
     this.shadowRoot.setHTMLUnsafe(`<h2 part="heading">${this.id}</h2>
